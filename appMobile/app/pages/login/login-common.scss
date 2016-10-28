@@ -1,0 +1,23 @@
+// Login Common
+@import "../../scss/variables";
+
+StackLayout {
+  margin-left: 30;
+  margin-right: 30;
+  padding-bottom: 15;
+  background-color: $color;
+}
+Button, TextField {
+  margin-left: 16;
+  margin-right: 16;
+  margin-bottom: 10;
+}
+
+.submit-button {
+    margin-top: 20;
+}
+
+.submit-button, .skip-button {
+  background-color: $accent;
+  color: $color;
+}

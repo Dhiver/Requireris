@@ -37,3 +37,23 @@
 * We RECOMMEND setting a look-ahead parameter s on the server, which defines the size of the look-ahead window.  In a nutshell, the server can recalculate the next s HOTP-server values, and check them against the received HOTP client.
 * Synchronization of counters in this scenario simply requires the server to calculate the next HOTP values and determine if there is a match.  Optionally, the system MAY require the user to send a sequence of (say, 2, 3) HOTP values for resynchronization purpose, since forging a sequence of consecutive HOTP values is even more difficult than guessing a single HOTP value.
 * The upper bound set by the parameter s ensures the server does not go on checking HOTP values forever (causing a denial-of-service attack) and also restricts the space of possible solutions for an attacker trying to manufacture HOTP values. s SHOULD be set as low as possible, while still ensuring that usability is not impacted.
+
+# TOTP (Time-Based One-Time Password)
+
+* Based on HOTP + time-based moving factor
+* TOTP implementations may use HMAC-SHA-256 or HMAC-SHA-512 functions, based on SHA-256 or SHA-512 [SHA2] hash functions , instead of the HMAC-SHA-1 function that has been specified for the HOTP computation.
+* The prover (client) and the verifier (server) must know or be able to derive the current Unix time (i.e., the number of seconds elapsed since midnight UTC of January 1, 1970) for OTP generation.
+* The prover and verifier MUST use the same time-step value X.
+* There MUST be a unique secret (key) for each prover.
+
+## Input
+
+* X, A time step in seconds (default 30 seconds)
+* T0, Unix time to start conting time steps (default 0 seconds)
+
+## Generate HOTP Values
+
+* TOTP = HOTP(K, T)
+* T is an integer and represents the number of time steps between the initial counter time T0 and the current Unix time
+* T = (Current Unix time - T0) / X // where the default floor function is used in the computation
+* T must be larger than a 32-bit integer

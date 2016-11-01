@@ -1,6 +1,6 @@
 const crypto = require('crypto');
 const assert = require('assert');
-const base32 = require('base32');
+const base32 = require('hi-base32');
 
 function hmac(hash, secret, msg) {
 	return crypto.createHmac(hash, secret).update(msg).digest();
@@ -21,16 +21,18 @@ function dynamicTruncation(hs) {
 	return dbc2.readUIntBE(0, dbc2.length);
 }
 
-function hotp(secret, counter, len, hash) {
+function hotp(secret, rawCounter, len, hash) {
+	assert(secret.length >= 16, "shared secret must be at least 16 bytes")
 	len = len < 6 ? 6 : len;
 	len = len > 8 ? 8 : len;
-	assert(secret.length >= 16, "shared secret must be at least 16 bytes")
+	const counter = Buffer.alloc(8);
+	counter.writeUIntBE(rawCounter, 0, 8);
 	const decodedSecret = base32.decode(secret);
 	const hs = hmac(hash, decodedSecret, counter);
 	const sbits = dynamicTruncation(hs).toString();
 	return sbits.substr(sbits.length - len);
 }
 
-const date = (new Date).getTime().toString();
+//const date = (new Date).getTime().toString();
 
-console.log(hotp('JBSWY3DPEHPK3PXP', date, 6, 'sha1'));
+console.log(hotp('GEZDGNBVGY3TQOJQGEZDGNBVGY3TQOJQ', 0, 6, 'sha1'));

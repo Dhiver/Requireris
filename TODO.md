@@ -9,8 +9,13 @@
     - [x] no AuthAccount => empty
     - [x] multi account
     - [ ] edit account
-    - [ ] AuthAccount => load from crytped DB
     - [ ] compatibilty mode (ex: Google)
+    - [ ] AuthAccount
+        - [ ] crytped DB
+        - [ ] auth by user / login
+        - [ ] auth by Google
+        - [ ] auth by Facebook
+        - [ ] auth by Yammer ???
 
 
 - Web Interface / Electron App

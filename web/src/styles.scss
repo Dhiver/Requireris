@@ -1,0 +1,52 @@
+/* You can add global styles to this file, and also import other style files */
+
+$size: 30vw;
+
+.loading {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    .loader {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        width: $size;
+        height: $size;
+        &:before {
+            content: "";
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            box-shadow: inset 0 0 0 1px rgba(#009688, 0.4);
+            border-radius: 50%;
+        }
+        &:after {
+            content: "";
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            transform-origin: $size/2 $size/2;
+            -webkit-mask-image: -webkit-linear-gradient(top, #000000, rgba(0, 0, 0, 0));
+            animation: rotation 1.2s infinite linear;
+            box-shadow: inset 0 0 0 10px #009688;
+            border-radius: 50%;
+        }
+    }
+}
+
+.title {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    font-family: Roboto;
+    font-size: 2.5vw;
+    width: 100%;
+}
+
+@keyframes rotation {
+    from {transform: rotate(0deg);}
+    to {transform: rotate(360deg);}
+}

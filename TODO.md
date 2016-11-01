@@ -6,23 +6,24 @@
 ## Bonus
 
 - Features
-    - AuthAccount => load from crytped DB
-    - no AuthAccount => empty
-    - multi account
-    - edit account
-    - compatibilty mode (ex: Google)
+    - [ ] no AuthAccount => empty
+    - [ ] multi account
+    - [ ] edit account
+    - [ ] AuthAccount => load from crytped DB
+    - [ ] compatibilty mode (ex: Google)
 
 
 - Web Interface / Electron App
-    - Angular2
+    - [ ] Angular2
 
 
 - Android / iOS App
-    - NativeScript
-    - Angular2
-    - unlock by PIN code
-    - use DB in device ???
+    - [ ] NativeScript
+    - [ ] Angular2
+    - [ ] unlock by PIN code
+    - [ ] use DB in device ???
 
 ## SuperBonus
-- webOS App
-- send by SMS
+- [ ] webOS App
+- [ ] send by SMS
+- [ ] PAM Module

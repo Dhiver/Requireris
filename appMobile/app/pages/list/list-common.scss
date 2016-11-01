@@ -1,0 +1,18 @@
+// List Common
+
+@import "../../scss/variables";
+
+.item {
+    &:pressed {
+        background-color: darken($color, 50);
+    }
+    .otp {
+        font-size: 30;
+    }
+    .account {
+        font-size: 18;
+    }
+    .timeLeft {
+        font-size: 30;
+    }
+}

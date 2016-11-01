@@ -1,0 +1,56 @@
+// // App
+@import "../ng2-material/core/style/variables";
+@import "../ng2-material/core/style/default-theme";
+
+
+:host {
+    > md-sidenav-layout {
+        md-sidenav {
+            width: 300px;
+            text-align: center;
+            md-input {
+                width: 80%;
+                margin: 15px 0px;
+                &.nums {
+                    width: 40%;
+                    margin: 3%;
+                }
+            }
+        }
+    }
+    .headerMenu {
+        .headerTitle, .close {
+            margin-left: auto;
+        }
+        .close {
+            cursor: pointer;
+        }
+    }
+}
+
+.table {
+    overflow: hidden;
+    // margin-left: 200px;
+    md-data-table {
+        md-progress-circle {
+            // width: 100%;
+            height: 50px;
+        }
+        td, th {
+            text-align: center;
+            width: 25%;
+            md-progress-circle {
+                width: 100%;
+            }
+            // font-size: 25px;
+        }
+    }
+    .menu {
+        padding: 20px;
+        cursor: pointer;
+    }
+    .remove {
+        margin-left: 20px;
+        cursor: pointer;
+    }
+}

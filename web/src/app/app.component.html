@@ -1,0 +1,56 @@
+<md-sidenav-layout layout="row" fullscreen>
+    <md-sidenav #menu mode="side" opened>
+        <md-toolbar class="headerMenu">
+            <h3 class="headerTitle">Login</h3>
+            <!-- <button md-button #mybutton (click)="menu.close()">Close</button> -->
+            <md-icon class="close material-icons" (click)="menu.close($event)">close</md-icon>
+        </md-toolbar>
+        <form [formGroup]="loginForm" novalidate (ngSubmit)="addAccount(loginForm.value, loginForm.valid)">
+            <md-input placeholder="Account" formControlName="account"></md-input>
+            <md-input placeholder="Secret Key" formControlName="secretKey"></md-input>
+            <md-input placeholder="Validity Time" class="nums" type="number" formControlName="validity" min="10">
+                <span md-suffix>seconds</span>
+            </md-input>
+            <md-input placeholder="Length" class="nums" type="number" formControlName="length" min="6">
+                <span md-suffix>digits</span>
+            </md-input>
+            <button md-raised-button class="md-raised md-primary" type="submit" [disabled]="!loginForm.valid">
+                <md-icon class="add material-icons">person_add</md-icon>
+                <span>Add Account</span>
+            </button>
+        </form>
+    </md-sidenav>
+
+    <md-content #content class="table">
+        <md-toolbar color="primary" *ngIf="selection.length == 0">
+            <md-icon *ngIf="!menu.opened" class="menu material-icons" (click)="menu.open($event)">menu</md-icon>
+            <span>One Time Password</span>
+        </md-toolbar>
+        <md-toolbar color="accent" *ngIf="selection.length != 0">
+            <span>{{selection.length}} item{{selection.length > 1 ? 's' : ''}} selected</span>
+            <span flex hide show-gt-md></span>
+            <span class="md-caption" hide show-gt-md>{{selection | join:' | '}}</span>
+            <md-icon class="remove material-icons">delete</md-icon>
+        </md-toolbar>
+        <md-data-table layout-fill [selectable]="true" (onSelectableChange)="change($event)">
+            <thead>
+                <tr md-data-table-header-selectable-row>
+                    <th>Account</th>
+                    <th>TimeLeft</th>
+                    <th>Seconds</th>
+                    <th>OTP</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let opt of opts" md-data-table-selectable-row [selectable-value]="opt.account">
+                    <td>{{ opt.account }}</td>
+                    <td>
+                        <md-progress-circle mode="determinate" [value]="opt.getTimeLeftPercent()"></md-progress-circle>
+                    </td>
+                    <td>{{ opt.timeLeft }}</td>
+                    <td>{{ opt.otp }}</td>
+                </tr>
+            </tbody>
+        </md-data-table>
+    </md-content>
+</md-sidenav-layout>

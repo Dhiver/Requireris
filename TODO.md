@@ -1,5 +1,10 @@
 # TODO
 
+- [ ] Implement HOTP
+- [ ] Implement TOTP
+
+## Bonus
+
 - Features
     - [x] no AuthAccount => empty
     - [x] multi account

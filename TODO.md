@@ -1,8 +1,7 @@
 # TODO
 
 - [x] Implement HOTP
-- [ ] Implement TOTP
-- [ ] Verify values with oathtool
+- [x] Implement TOTP
 
 ## Bonus
 

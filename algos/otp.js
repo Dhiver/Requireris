@@ -22,7 +22,8 @@ function dynamicTruncation(hs) {
 }
 
 function hotp(secret, rawCounter, len, hash) {
-	assert(secret.length >= 16, "shared secret must be at least 16 bytes")
+	assert(secret.length >= 16, "shared secret must be at least 16 bytes");
+	assert(['sha1', 'sha256', 'sha512'].includes(hash), "wrong hash name");
 	len = len < 6 ? 6 : len;
 	len = len > 8 ? 8 : len;
 	const counter = Buffer.alloc(8);
@@ -33,6 +34,11 @@ function hotp(secret, rawCounter, len, hash) {
 	return sbits.substr(sbits.length - len);
 }
 
-//const date = (new Date).getTime().toString();
+function totp(secret, timeStep, timeStart, len, hash) {
+	const secondsFromEpoch = Math.floor((new Date).getTime() / 1000);
+	const counter = Math.floor((secondsFromEpoch - timeStart) / timeStep);
+	return hotp(secret, counter, len, hash);
+}
 
-console.log(hotp('GEZDGNBVGY3TQOJQGEZDGNBVGY3TQOJQ', 0, 6, 'sha1'));
+//console.log(hotp('GEZDGNBVGY3TQOJQGEZDGNBVGY3TQOJQ', 0, 6, 'sha1'));
+console.log(totp('GEZDGNBVGY3TQOJQGEZDGNBVGY3TQOJQ', 30, 0, 8, 'sha1'));

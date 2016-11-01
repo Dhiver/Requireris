@@ -25,6 +25,7 @@
         <md-toolbar color="primary" *ngIf="selection.length == 0">
             <md-icon *ngIf="!menu.opened" class="menu material-icons" (click)="menu.open($event)">menu</md-icon>
             <span>One Time Password</span>
+            <div class="g-signin2" data-onsuccess="onSignIn"></div>
         </md-toolbar>
         <md-toolbar color="accent" *ngIf="selection.length != 0">
             <span>{{selection.length}} item{{selection.length > 1 ? 's' : ''}} selected</span>

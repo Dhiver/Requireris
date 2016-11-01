@@ -1,8 +1,7 @@
 # TODO
 
-- [/] Implement HOTP
+- [x] Implement HOTP
 - [ ] Implement TOTP
-
 - [ ] Verify values with oathtool
 
 ## Bonus
@@ -15,15 +14,23 @@
 	- [x] no AuthAccount => empty
 	- [x] multi account
 	- [ ] edit account
-	- [ ] AuthAccount => load from crytped DB
+    - [ ] AuthAccount
+        - [ ] crytped DB
+        - [ ] auth by user / login
+        - [ ] auth by Google
+        - [ ] auth by Facebook
+        - [ ] auth by Yammer ???
 	- [ ] compatibilty mode (ex: Google)
-	- [ ] Web Interface / Electron App
-		- [x] Angular2
-	- [ ] Android / iOS App
-		- [x] NativeScript
-		- [x] Angular2
-		- [ ] unlock by PIN code
-		- [ ] use DB in device ???
+
+
+- [ ] Web Interface / Electron App
+	- [x] Angular2
+
+- [ ] Android / iOS App
+	- [x] NativeScript
+	- [x] Angular2
+	- [ ] unlock by PIN code
+	- [ ] use DB in device ???
 
 ## SuperBonus
 - [ ] webOS App

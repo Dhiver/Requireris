@@ -6,8 +6,8 @@
 ## Bonus
 
 - Features
-    - [ ] no AuthAccount => empty
-    - [ ] multi account
+    - [x] no AuthAccount => empty
+    - [x] multi account
     - [ ] edit account
     - [ ] AuthAccount => load from crytped DB
     - [ ] compatibilty mode (ex: Google)
@@ -15,12 +15,12 @@
 
 
 - Web Interface / Electron App
-    - [ ] Angular2
+    - [x] Angular2
 
 
 - Android / iOS App
-    - [ ] NativeScript
-    - [ ] Angular2
+    - [x] NativeScript
+    - [x] Angular2
     - [ ] unlock by PIN code
     - [ ] use DB in device ???
 

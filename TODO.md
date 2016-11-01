@@ -11,6 +11,7 @@
     - [ ] edit account
     - [ ] AuthAccount => load from crytped DB
     - [ ] compatibilty mode (ex: Google)
+    - [ ] QR Code generator
 
 
 - Web Interface / Electron App

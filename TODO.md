@@ -1,5 +1,10 @@
 # TODO
 
+- [ ] Implement HOTP
+- [ ] Implement TOTP
+
+## Bonus
+
 - Features
     - AuthAccount => load from crytped DB
     - no AuthAccount => empty

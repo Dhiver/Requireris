@@ -1,3 +1,5 @@
+// https://github.com/google/google-authenticator/wiki/Key-Uri-Format
+
 const assert  = require('assert');
 
 class OTPKeyUri {

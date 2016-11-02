@@ -6,6 +6,7 @@
 ## Bonus
 
 - [ ] Dhiver
+	- [ ] Unit tests
 	- [ ] QR Code generator (qrcode-terminal for terminal and https://www.npmjs.com/browse/keyword/qrcode for web based)
 	- [ ] Develop a server side token verification
 		- [ ] Validation

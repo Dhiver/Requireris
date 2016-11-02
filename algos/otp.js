@@ -3,7 +3,7 @@ const assert = require('assert');
 const base32 = require('hi-base32');
 
 function hmac(hash, secret, msg) {
-	return crypto.createHmac(hash, secret).update(msg).digest();
+	return crypto.createHmac(hash.toLowerCase(), secret).update(msg).digest();
 }
 
 function getBufferSubset(buf, offset, length) {
@@ -21,13 +21,13 @@ function dynamicTruncation(hs) {
 	return dbc2.readUIntBE(0, dbc2.length);
 }
 
-function hotp(secret, rawCounter, len, hash) {
+function hotp(secret, movingFactor, len, hash) {
 	assert(secret.length >= 16, "shared secret must be at least 16 bytes");
 	assert(['sha1', 'sha256', 'sha512'].includes(hash), "wrong hash name");
 	len = len < 6 ? 6 : len;
 	len = len > 8 ? 8 : len;
 	const counter = Buffer.alloc(8);
-	counter.writeUIntBE(rawCounter, 0, 8);
+	counter.writeUIntBE(movingFactor, 0, 8);
 	const decodedSecret = base32.decode(secret);
 	const hs = hmac(hash, decodedSecret, counter);
 	const sbits = dynamicTruncation(hs).toString();

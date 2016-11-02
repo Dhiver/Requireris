@@ -3,27 +3,38 @@ package main
 import (
 	"log"
 	"net/http"
+	"path"
 )
 
-// HelloServer coucou
-func HelloServer(w http.ResponseWriter, req *http.Request) {
-	w.Header().Set("Content-Type", "text/plain")
-	w.Write([]byte("This is an example server.\n"))
-	// fmt.Fprintf(w, "This is an example server.\n")
-	// io.WriteString(w, "This is an example server.\n")
-}
+const (
+	// DatabaseFolder folder
+	DatabaseFolder = "databases"
+
+	// MigrationsFolder folder
+	MigrationsFolder = "migrations"
+
+	// KeysFolder folder
+	KeysFolder = "keys"
+)
+
+var accounts Accounts
+var user User
 
 func main() {
-	var secretDB SecretDB
+	accounts.Init()
+	defer accounts.db.Close()
 
-	secretDB.db = Init()
-	defer secretDB.db.Close()
-	secretDB.ExecFromFile("migration.sql")
-	secretDB.AddAccount("account", "secretKey", 23456789, 23)
-	secretDB.List()
+	http.Handle("/", http.FileServer(http.Dir("dist")))
 
-	http.HandleFunc("/", HelloServer)
-	err := http.ListenAndServeTLS(":8080", "server.pem", "server.key", nil)
+	http.HandleFunc("/auth/sign_up", PostOnly(user.SignInHandler))
+	http.HandleFunc("/auth/sign_in", PostOnly(user.SignUpHandler))
+	http.HandleFunc("/auth/logout", GetOnly(user.LogoutHandler))
+
+	http.HandleFunc("/secret/add", PostOnly(user.AddSecretHandler))
+	http.HandleFunc("/secret/remove", PostOnly(user.RemoveSecretHandler))
+	http.HandleFunc("/secret/list", GetOnly(user.ListSecretHandler))
+
+	err := http.ListenAndServeTLS(":8080", path.Join(KeysFolder, "https.pem"), path.Join(KeysFolder, "https.key"), nil)
 	if err != nil {
 		log.Fatal("ListenAndServe: ", err)
 	}

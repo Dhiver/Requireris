@@ -21,7 +21,7 @@
 	- [x] multi account
 	- [ ] edit account
     - [ ] AuthAccount
-        - [ ] crytped DB
+        - [x] crytped DB
         - [ ] auth by user / login
         - [ ] auth by Google
         - [ ] auth by Facebook

@@ -16,6 +16,7 @@
 			- [ ] Random
 	- [ ] Bi-Directional Authentication
 	- [ ] Create a PAM module
+	- [x] Generate Key Uri for QRCode
 - [ ] Wery
 	- [ ] QR Code generator (https://www.npmjs.com/browse/keyword/qrcode for web based)
 	- [x] no AuthAccount => empty

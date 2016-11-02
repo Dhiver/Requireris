@@ -3,9 +3,7 @@ import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 
-import { AppComponent } from './app.component';
-
-import { LoginComponent } from '../login';
+import { LoginComponent } from './login.component';
 
 import {MdIconModule, MdIconRegistry } from '@angular2-material/icon';
 import {MdButtonModule } from '@angular2-material/button';
@@ -17,13 +15,9 @@ import {MdProgressCircleModule } from '@angular2-material/progress-circle';
 import {MdListModule } from '@angular2-material/list';
 import { Ng2MaterialModule } from '../ng2-material';
 
-import { JoinPipe } from './join.pipe';
-
 @NgModule({
     declarations: [
-        AppComponent,
-        LoginComponent,
-        JoinPipe
+        LoginComponent
     ],
     imports: [
         BrowserModule,
@@ -45,6 +39,6 @@ import { JoinPipe } from './join.pipe';
     providers: [
         MdIconRegistry
     ],
-    bootstrap: [AppComponent]
+    bootstrap: [LoginComponent]
 })
 export class AppModule { }

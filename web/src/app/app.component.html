@@ -2,12 +2,11 @@
     <md-sidenav #menu mode="side" opened>
         <md-toolbar class="headerMenu">
             <h3 class="headerTitle">Login</h3>
-            <!-- <button md-button #mybutton (click)="menu.close()">Close</button> -->
             <md-icon class="close material-icons" (click)="menu.close($event)">close</md-icon>
         </md-toolbar>
         <form [formGroup]="loginForm" novalidate (ngSubmit)="addAccount(loginForm.value, loginForm.valid)">
             <md-input placeholder="Account" formControlName="account"></md-input>
-            <md-input placeholder="Secret Key" formControlName="secretKey"></md-input>
+            <md-input placeholder="Secret Key" formControlName="secretKey" type="password"></md-input>
             <md-input placeholder="Validity Time" class="nums" type="number" formControlName="validity" min="10">
                 <span md-suffix>seconds</span>
             </md-input>
@@ -25,7 +24,7 @@
         <md-toolbar color="primary" *ngIf="selection.length == 0">
             <md-icon *ngIf="!menu.opened" class="menu material-icons" (click)="menu.open($event)">menu</md-icon>
             <span>One Time Password</span>
-            <div class="g-signin2" data-onsuccess="onSignIn"></div>
+            <login></login>
         </md-toolbar>
         <md-toolbar color="accent" *ngIf="selection.length != 0">
             <span>{{selection.length}} item{{selection.length > 1 ? 's' : ''}} selected</span>

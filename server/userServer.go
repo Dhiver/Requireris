@@ -2,7 +2,6 @@ package main
 
 import (
 	"encoding/json"
-	"fmt"
 	"log"
 	"net/http"
 	"reflect"
@@ -18,6 +17,7 @@ type UserIdentity struct {
 
 // SignUpHandler new user
 func (user *User) SignUpHandler(w http.ResponseWriter, req *http.Request) {
+	log.Println("signup")
 	decoder := json.NewDecoder(req.Body)
 	decoder.Decode(&user.Identity)
 	passwordHash := cryptPassword(user.Identity.Password)
@@ -68,7 +68,7 @@ func (user *User) AddSecretHandler(w http.ResponseWriter, req *http.Request) {
 
 // RemoveSecretHandler to user
 func (user *User) RemoveSecretHandler(w http.ResponseWriter, req *http.Request) {
-	// remove JWT token
+	// remove secret
 	w.WriteHeader(http.StatusOK)
 }
 
@@ -83,7 +83,7 @@ func (user *User) ListSecretHandler(w http.ResponseWriter, req *http.Request) {
 func cryptPassword(password string) []byte {
 	hash, err := bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)
 	if err != nil {
-		fmt.Println(err)
+		log.Println(err)
 	}
 	return hash
 }

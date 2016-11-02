@@ -1,14 +1,12 @@
 package main
 
-import (
-	"net/http"
-)
+import "net/http"
 
-type handler func(w http.ResponseWriter, r *http.Request)
+// Handler func type
+type Handler func(w http.ResponseWriter, r *http.Request)
 
 // GetOnly just GET method
-func GetOnly(h handler) handler {
-
+func GetOnly(h Handler) Handler {
 	return func(w http.ResponseWriter, r *http.Request) {
 		if r.Method == "GET" {
 			h(w, r)
@@ -19,8 +17,7 @@ func GetOnly(h handler) handler {
 }
 
 // PostOnly just POST method
-func PostOnly(h handler) handler {
-
+func PostOnly(h Handler) Handler {
 	return func(w http.ResponseWriter, r *http.Request) {
 		if r.Method == "POST" {
 			h(w, r)

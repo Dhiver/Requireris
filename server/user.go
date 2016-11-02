@@ -15,6 +15,7 @@ type User struct {
 
 // Secret type
 type Secret struct {
+	Account   string
 	SecretKey string
 	Time      int
 	Digits    int
@@ -31,7 +32,7 @@ func (user *User) Connect() error {
 
 // AddSecret to database
 func (user *User) AddSecret(secret Secret) error {
-	cmd := "INSERT INTO `secrets` (secretKey, time, digits) values('" + secret.SecretKey + "', " + strconv.Itoa(secret.Time) + ", " + strconv.Itoa(secret.Digits) + ");"
+	cmd := "INSERT INTO `secrets` (account, secretKey, time, digits) values('" + secret.Account + "', '" + secret.SecretKey + "', " + strconv.Itoa(secret.Time) + ", " + strconv.Itoa(secret.Digits) + ");"
 	_, err := user.DB.Exec(cmd)
 	if err != nil {
 		return err
@@ -41,7 +42,7 @@ func (user *User) AddSecret(secret Secret) error {
 
 // LoadSecrets from database
 func (user *User) LoadSecrets() error {
-	cmd := "select secretKey, time, digits from secrets;"
+	cmd := "select account, secretKey, time, digits from secrets;"
 	rows, err := user.DB.Query(cmd)
 	defer rows.Close()
 	if err != nil {
@@ -52,7 +53,7 @@ func (user *User) LoadSecrets() error {
 
 	for rows.Next() {
 		var secret Secret
-		rows.Scan(&secret.SecretKey, &secret.Time, &secret.Digits)
+		rows.Scan(&secret.Account, &secret.SecretKey, &secret.Time, &secret.Digits)
 		user.Secrets = append(user.Secrets, secret)
 	}
 	return nil

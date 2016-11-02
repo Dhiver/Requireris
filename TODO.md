@@ -6,7 +6,7 @@
 ## Bonus
 
 - [ ] Dhiver
-	- [ ] QR Code generator (qrcode-terminal for terminal and https://www.npmjs.com/browse/keyword/qrcode for web based)
+	- [ ] Unit tests
 	- [ ] Develop a server side token verification
 		- [ ] Validation
 		- [ ] Throttling
@@ -16,7 +16,9 @@
 			- [ ] Random
 	- [ ] Bi-Directional Authentication
 	- [ ] Create a PAM module
+	- [x] Generate Key Uri for QRCode
 - [ ] Wery
+	- [ ] QR Code generator (https://www.npmjs.com/browse/keyword/qrcode for web based)
 	- [x] no AuthAccount => empty
 	- [x] multi account
 	- [ ] edit account

@@ -21,15 +21,11 @@ class OTPKeyUri {
 	}
 
 	genHOTP(counter) {
-		this.ret += '&counter=' + (counter || 0)
-		this.ret = "otpauth://hotp" + this.ret;
-		return this.ret;
+		return "otpauth://hotp" + this.ret + '&counter=' + (counter || 0);
 	}
 
 	genTOTP(period) {
-		this.ret += '&period=' + (period || 30)
-		this.ret = "otpauth://totp" + this.ret;
-		return this.ret;
+		return "otpauth://totp" + this.ret + '&period=' + (period || 30);
 	}
 }
 

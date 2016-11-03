@@ -3,13 +3,12 @@
 const assert  = require('assert');
 
 class OTPKeyUri {
-	constructor(issuer, accountName, secret, digits, algo, movingFactor) {
+	constructor(issuer, accountName, secret, digits, algo) {
 		this.issuer = issuer;
 		this.accountName = accountName;
 		this.secret = secret;
 		this.digits = digits;
 		this.algo = algo;
-		this.movingFactor = movingFactor;
 		this.ret = ""
 	}
 

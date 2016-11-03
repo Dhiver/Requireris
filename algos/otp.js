@@ -15,7 +15,7 @@ function dynamicTruncation(hs) {
 	const offset = hs[hs.length - 1] & 0xf;
 	// Only get 4-byte from hs at offset
 	const dbc1 = getBufferSubset(hs, offset, 4);
-	dbc2 = new Buffer(dbc1);
+	let dbc2 = new Buffer(dbc1);
 	// Masking the most significant bit of dbc2
 	dbc2[0] &= 0x7f;
 	return dbc2.readUIntBE(0, dbc2.length);

@@ -6,16 +6,15 @@
 ## Bonus
 
 - [ ] Dhiver
-	- [ ] Unit tests
-	- [ ] Develop a server side token verification
+	- [ ] Develop a server side token verification program
 		- [ ] Validation
 		- [ ] Throttling
 		- [ ] Resynchronization
 		- [ ] Shared secret generation
 			- [ ] Deterministic
 			- [ ] Random
-	- [ ] Bi-Directional Authentication
-	- [ ] Create a PAM module
+		- [ ] Bi-Directional Authentication
+	- [ ] Create a PAM module with this server program
 	- [x] Generate Key Uri for QRCode
 - [ ] Wery
 	- [ ] QR Code generator (https://www.npmjs.com/browse/keyword/qrcode for web based)

@@ -38,6 +38,15 @@
 * Synchronization of counters in this scenario simply requires the server to calculate the next HOTP values and determine if there is a match.  Optionally, the system MAY require the user to send a sequence of (say, 2, 3) HOTP values for resynchronization purpose, since forging a sequence of consecutive HOTP values is even more difficult than guessing a single HOTP value.
 * The upper bound set by the parameter s ensures the server does not go on checking HOTP values forever (causing a denial-of-service attack) and also restricts the space of possible solutions for an attacker trying to manufacture HOTP values. s SHOULD be set as low as possible, while still ensuring that usability is not impacted.
 
+## Bi-Directional Authentication
+
+* Interestingly enough, the HOTP client could also be used to authenticate the validation server, claiming that it is a genuine entity knowing the shared secret.
+* nce the HOTP client and the server are synchronized and share the same secret (or a method to recompute it), a simple 3-pass protocol could be put in place:
+	* The end user enter the TokenID and a first OTP value OTP1;
+	* The server checks OTP1 and if correct, sends back OTP2;
+	* The end user checks OTP2 using his HOTP device and if correct, uses the web site.
+* Obviously, as indicated previously, all the OTP communications have to take place over a secure channel, e.g., SSL/TLS, IPsec connections.
+
 # TOTP (Time-Based One-Time Password)
 
 * Based on HOTP + time-based moving factor

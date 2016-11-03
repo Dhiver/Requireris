@@ -5,7 +5,7 @@ import { Http, Response, Headers, RequestOptions } from '@angular/http';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 
 interface User {
-    account: string,
+    username: string,
     password: string
 }
 
@@ -19,7 +19,7 @@ export class LoginComponent {
     @ViewChild('login') loginDialog
 
     loginForm = new FormGroup({
-        account: new FormControl('', Validators.required),
+        username: new FormControl('', Validators.required),
         password: new FormControl('', Validators.required)
     });
 
@@ -32,12 +32,12 @@ export class LoginComponent {
             return;
         }
 
-        let user: User = {account: value.account, password: value.password};
+        let user: User = {username: value.username, password: value.password};
 
         let body = JSON.stringify(user);
         let headers = new Headers({ 'Content-Type': 'application/json' });
         let options = new RequestOptions({ headers: headers });
-        this.http.post('auth/sign_up', body, options)
+        this.http.post('/auth/sign_up', body, options)
         .map((res:Response) => res.json())
         .subscribe(
             data => { console.log(data)},

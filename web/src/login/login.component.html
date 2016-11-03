@@ -2,7 +2,7 @@
 <md-dialog #login>
     <!-- <div class="g-signin2" data-onsuccess="onSignIn"></div> -->
     <form [formGroup]="loginForm" novalidate (ngSubmit)="connect(loginForm.value, loginForm.valid)">
-        <md-input placeholder="Account" class="field" formControlName="account"></md-input>
+        <md-input placeholder="Account" class="field" formControlName="username"></md-input>
         <md-input placeholder="Password" class="field" formControlName="password" type="password"></md-input>
         <button md-raised-button class="md-raised md-primary submit" type="submit" [disabled]="!loginForm.valid">
             <span>Login</span>

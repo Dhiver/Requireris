@@ -17,10 +17,10 @@ type UserIdentity struct {
 
 // SignUpHandler new user
 func (user *User) SignUpHandler(w http.ResponseWriter, req *http.Request) {
-	log.Println("signup")
 	decoder := json.NewDecoder(req.Body)
 	decoder.Decode(&user.Identity)
 	passwordHash := cryptPassword(user.Identity.Password)
+	log.Println(passwordHash)
 	err := accounts.AddUser(&UserDB{user.Identity.Username, passwordHash})
 	if err != nil {
 		log.Println(err)
@@ -43,6 +43,7 @@ func (user *User) SignInHandler(w http.ResponseWriter, req *http.Request) {
 	}
 	// create JWT token
 	user.Connect()
+	// accounts.ListUsers()
 	w.WriteHeader(http.StatusOK)
 }
 

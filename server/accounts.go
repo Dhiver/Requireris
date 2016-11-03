@@ -2,6 +2,7 @@ package main
 
 import (
 	"database/sql"
+	"log"
 	"path"
 )
 
@@ -47,4 +48,22 @@ func (accounts *Accounts) GetPasswordHash(user string) (passwordHash []byte, err
 	}
 	rows.Scan(&passwordHash)
 	return
+}
+
+// ListUsers from db
+func (accounts *Accounts) ListUsers() error {
+	cmd := "select user, password_hash from users;"
+	rows, err := user.DB.Query(cmd)
+	defer rows.Close()
+	if err != nil {
+		log.Println(err)
+		return err
+	}
+
+	for rows.Next() {
+		var user UserDB
+		rows.Scan(&user.User, &user.PasswordHash)
+		log.Printf("%#v\n", user)
+	}
+	return nil
 }

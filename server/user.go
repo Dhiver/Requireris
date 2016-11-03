@@ -2,6 +2,7 @@ package main
 
 import (
 	"database/sql"
+	"log"
 	"path"
 	"strconv"
 )
@@ -23,7 +24,8 @@ type Secret struct {
 
 // Connect user openning db
 func (user *User) Connect() error {
-	user.DB = Init(path.Join(DatabaseFolder, user.Identity.Username), user.Identity.Password)
+	log.Println("connect")
+	user.DB = Init(path.Join(DatabaseFolder, user.Identity.Username)+".db", user.Identity.Password)
 	ExecFromFile(user.DB, path.Join(MigrationsFolder, "secrets.sql"))
 
 	user.LoadSecrets()

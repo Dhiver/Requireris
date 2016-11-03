@@ -14,6 +14,7 @@ export class OTPAccount {
         private timeStep: number,
         private length: number) {
              this.otp = new OTP(secret, length, "SHA-512");
+             this.otp.genCommonURI("DHIWERY Inc.", "work@dhiwery.io");
             this.timeLeft = timeStep;
             this.genOTP();
             this.timeSubscribe = Observable.interval(1000).map((x) => {
@@ -24,6 +25,8 @@ export class OTPAccount {
                     this.genOTP();
                 }
             });
+            console.log(this.otp.genTOTPKeyURI(30));
+            console.log(this.otp.genHOTPKeyURI(0));
         }
 
         getTimeLeftPercent(): number {

@@ -7,13 +7,18 @@ import * as jsSHA from 'jssha';
 
 export class OTP {
 
-    avaibleHash: string[] = ['SHA-1', 'SHA-256', 'SHA-512'];
+    private avaibleHash: string[] = ['SHA-1', 'SHA-256', 'SHA-512'];
+
+    private commonURI: string;
+    private issuer: string;
+    private account: string;
 
     constructor(
         private secret: string,
         private length: number,
         private hash: string) {
-
+            this.length = this.length < 6 ? 6 : this.length;
+            this.length = this.length > 8 ? 8 : this.length;
         }
 
         private hmac(hash: string, secret: string, msg: string): any {
@@ -42,9 +47,6 @@ export class OTP {
             assert(this.secret.length >= 16, "shared secret must be at least 16 bytes");
             assert(this.avaibleHash.indexOf(this.hash) != -1, "wrong hash name");
 
-            this.length = this.length < 6 ? 6 : this.length;
-            this.length = this.length > 8 ? 8 : this.length;
-
             const counter: Buffer = Buffer.alloc(8);
             counter.writeUIntBE(movingFactor, 0, 8);
 
@@ -59,4 +61,23 @@ export class OTP {
             const movingFactor: number = Math.floor((secondsFromEpoch - ((timeStart || 0))) / (timeStep || 30));
             return this.hotp(movingFactor);
         }
+
+        public genCommonURI(issuer: string, account: string): void {
+            this.issuer = issuer;
+            this.account = account;
+            this.commonURI = '/' + encodeURI(this.issuer) + ':' + encodeURI(this.account)
+            + '?secret=' + encodeURIComponent(this.secret.replace(/[\s\.\_\-]+/g, '').toUpperCase())
+            + '&issuer=' + encodeURIComponent(this.issuer)
+            + '&algorithm=' + this.hash.replace('-', '')
+            + '&digits=' + (this.length);
+        }
+
+        public genHOTPKeyURI(counter?: number) {
+            return "otpauth://hotp" + this.commonURI + '&counter=' + (counter || 0);
+        }
+
+        public genTOTPKeyURI(period?: number) {
+            return "otpauth://totp" + this.commonURI + '&period=' + (period || 30);
+        }
+
     }

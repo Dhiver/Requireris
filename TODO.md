@@ -32,6 +32,11 @@
 
 - [ ] Web Interface / Electron App
 	- [x] Angular2
+	- [ ] REVOIR INTERFACE
+	- [ ] show QR Code
+	- [ ] HOTP / TOTP
+		- [ ] change form login
+		- [ ] change table cell
 
 - [ ] Android / iOS App
 	- [x] NativeScript

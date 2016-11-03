@@ -19,20 +19,20 @@ export class AppComponent {
         account: new FormControl('', Validators.required),
         secretKey: new FormControl('', Validators.required),
         validity: new FormControl(30, Validators.required),
-        length: new FormControl(6, Validators.required)
+        length: new FormControl(6, Validators.required),
+        hash: new FormControl('', Validators.required)
     });
 
     constructor() {
-        this.opts.push(new OTPAccount("tot@gmail.com", "GEZDGNBVGY3TQOJQGEZDGNBVGY3TQOJQGEZDGNBVGY3TQOJQGEZDGNBVGY3TQOJQGEZDGNBVGY3TQOJQGEZDGNBVGY3TQOJQGEZDGNA=", 30, 8));
-        // this.opts.push(new OTP("tot@gmail.com", "GEZDGNBVGY3TQOJQGEZDGNBVGY3TQOJQ", 10, 6));
-        // this.opts.push(new OTP("dgdgwsegs@gmail.com", "GEZDGNBVGY3TQOJQGEZDGNBVGY3TQOJQ", 5, 6));
+        this.opts.push(new OTPAccount("tot@gmail.com", "GEZDGNBVGY3TQOJQGEZDGNBVGY3TQOJQGEZDGNBVGY3TQOJQGEZDGNBVGY3TQOJQGEZDGNBVGY3TQOJQGEZDGNBVGY3TQOJQGEZDGNA=", 30, 8, "SHA-512"));
     }
 
     addAccount(value: any, valid: boolean): void {
         if (!valid) {
             return;
         }
-        this.opts.push(new OTPAccount(value.account, value.secretKey, value.validity, value.length));
+        console.log(value);
+        this.opts.push(new OTPAccount(value.account, value.secretKey, value.validity, value.length, value.hash));
     }
 
     change(data: ITableSelectionChange) {

@@ -12,8 +12,9 @@ export class OTPAccount {
         public account: string,
         private secret: string,
         private timeStep: number,
-        private length: number) {
-             this.otp = new OTP(secret, length, "SHA-512");
+        private length: number,
+        private hash: string) {
+             this.otp = new OTP(secret, length, hash);
              this.otp.genCommonURI("DHIWERY Inc.", "work@dhiwery.io");
             this.timeLeft = timeStep;
             this.genOTP();

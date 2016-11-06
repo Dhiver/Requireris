@@ -1,4 +1,5 @@
-<button md-button (click)="login.show()">Login</button>
+<button md-button *ngIf="!isLogin" (click)="login.show()">Login</button>
+<button md-button *ngIf="isLogin" (click)="logout()">Logout</button>
 <md-dialog #login>
     <!-- <div class="g-signin2" data-onsuccess="onSignIn"></div> -->
     <form [formGroup]="loginForm" novalidate (ngSubmit)="connect(loginForm.value, loginForm.valid)">

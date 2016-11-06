@@ -41,4 +41,4 @@ import { Ng2MaterialModule } from '../ng2-material';
     ],
     bootstrap: [LoginComponent]
 })
-export class AppModule { }
+export class LoginModule { }

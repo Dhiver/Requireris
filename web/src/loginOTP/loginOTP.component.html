@@ -1,0 +1,26 @@
+<md-toolbar class="headerMenu">
+    <h3 class="headerTitle">Login OTP</h3>
+    <button md-icon-button class="close md-icon-button" aria-label="Close" (click)="closeMenu.emit()">
+        <md-icon class="material-icons">close</md-icon>
+    </button>
+    <!-- <md-icon class="close material-icons" (click)="closeMenu.emit()">close</md-icon> -->
+</md-toolbar>
+<form [formGroup]="loginOTPForm" novalidate (ngSubmit)="addAccount(loginOTPForm.value, loginOTPForm.valid)">
+    <md-input placeholder="Account" formControlName="account"></md-input>
+    <md-input placeholder="Secret Key (base32)" formControlName="secretKey" type="password"></md-input>
+    <md-input placeholder="Validity Time" class="nums" type="number" formControlName="validity" min="10">
+        <span md-suffix>seconds</span>
+    </md-input>
+    <md-input placeholder="Length" class="nums" type="number" formControlName="length" min="6" max="8">
+        <span md-suffix>digits</span>
+    </md-input>
+    <select formControlName="hash">
+        <option value="SHA-1">SHA-1</option>
+        <option value="SHA-256">SHA-256</option>
+        <option value="SHA-512">SHA-512</option>
+    </select>
+    <button md-raised-button class="md-raised md-primary" type="submit" [disabled]="!loginOTPForm.valid">
+        <md-icon class="add material-icons">person_add</md-icon>
+        <span>Add Account</span>
+    </button>
+</form>

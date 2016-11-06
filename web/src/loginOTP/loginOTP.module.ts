@@ -3,10 +3,7 @@ import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 
-import { AppComponent } from './app.component';
-
-import { LoginComponent } from '../login';
-import { LoginOTPComponent } from '../loginOTP';
+import { LoginOTPComponent } from './loginOTP.component';
 
 import {MdIconModule, MdIconRegistry } from '@angular2-material/icon';
 import {MdButtonModule } from '@angular2-material/button';
@@ -18,18 +15,9 @@ import {MdProgressCircleModule } from '@angular2-material/progress-circle';
 import {MdListModule } from '@angular2-material/list';
 import { Ng2MaterialModule } from '../ng2-material';
 
-import { MaterialModule }       from '../material';
-
-import { ClipboardModule }  from 'angular2-clipboard';
-
-import { JoinPipe } from './join.pipe';
-
 @NgModule({
     declarations: [
-        AppComponent,
-        LoginComponent,
-        LoginOTPComponent,
-        JoinPipe
+        LoginOTPComponent
     ],
     imports: [
         BrowserModule,
@@ -46,14 +34,11 @@ import { JoinPipe } from './join.pipe';
         MdCardModule,
         MdProgressCircleModule,
         MdSidenavModule,
-        MdListModule,
-
-        MaterialModule,
-        ClipboardModule
+        MdListModule
     ],
     providers: [
         MdIconRegistry
     ],
-    bootstrap: [AppComponent]
+    bootstrap: [LoginOTPComponent]
 })
-export class AppModule { }
+export class LoginOTPModule { }

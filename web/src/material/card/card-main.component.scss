@@ -1,0 +1,13 @@
+// MaterialCardMain
+
+@import '../../scss/variables';
+
+:host {
+    display: flex;
+    flex-direction: row;
+    padding: 0;
+    @media (max-width: 1200px) {
+        flex-direction: column !important;
+        margin: auto;
+    }
+}

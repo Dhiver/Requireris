@@ -1,6 +1,6 @@
 const crypto = require('crypto');
 const assert = require('assert');
-const base32 = require('hi-base32');
+const base32 = require('thirty-two');
 
 function hmac(hash, secret, msg) {
 	return crypto.createHmac(hash.toLowerCase(), secret).update(msg).digest();
@@ -40,5 +40,5 @@ function totp(secret, timeStep, timeStart, len, hash) {
 	return hotp(secret, counter, len, hash);
 }
 
-//console.log(hotp('GEZDGNBVGY3TQOJQGEZDGNBVGY3TQOJQ', 0, 6, 'sha1'));
-console.log(totp('GEZDGNBVGY3TQOJQGEZDGNBVGY3TQOJQ', 30, 0, 8, 'sha1'));
+console.log(hotp('t6i2dqvcvyafgqnroqulgnshhe7qxxdz', 0, 6, 'sha1'));
+// console.log(totp('GEZDGNBVGY3TQOJQGEZDGNBVGY3TQOJQ', 30, 0, 8, 'sha1'));

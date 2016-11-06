@@ -13,31 +13,25 @@ import { OTPAccount } from "../shared/otp-account";
 })
 export class AppComponent {
     selection: string[] = [];
-    opts: Array<OTPAccount> = [];
+    otps: Array<OTPAccount> = [];
 
-    loginForm = new FormGroup({
-        account: new FormControl('', Validators.required),
-        secretKey: new FormControl('', Validators.required),
-        validity: new FormControl(30, Validators.required),
-        length: new FormControl(6, Validators.required),
-        hash: new FormControl('', Validators.required)
-    });
 
     constructor() {
-        this.opts.push(new OTPAccount("tot@gmail.com", "GEZDGNBVGY3TQOJQGEZDGNBVGY3TQOJQGEZDGNBVGY3TQOJQGEZDGNBVGY3TQOJQGEZDGNBVGY3TQOJQGEZDGNBVGY3TQOJQGEZDGNA=", 30, 8, "SHA-512"));
+        this.otps.push(new OTPAccount("tot@gmail.com", "GEZDGNBVGY3TQOJQGEZDGNBVGY3TQOJQGEZDGNBVGY3TQOJQGEZDGNBVGY3TQOJQGEZDGNBVGY3TQOJQGEZDGNBVGY3TQOJQGEZDGNA=", 30, 8, "SHA-512"));
+        this.otps.push(new OTPAccount("qsfsf@gmail.com", "GEZDGNBVGY3TQOJQGEZDGNBVGY3TQOJQGEZDGNBVGY3TQOJQGEZDGNBVGY3TQOJQGEZDGNBVGY3TQOJQGEZDGNBVGY3TQOJQGEZDGNA=", 10, 8, "SHA-512"));
+        this.otps.push(new OTPAccount("ijqsif@gmail.com", "GEZDGNBVGY3TQOJQGEZDGNBVGY3TQOJQGEZDGNBVGY3TQOJQGEZDGNBVGY3TQOJQGEZDGNBVGY3TQOJQGEZDGNBVGY3TQOJQGEZDGNA=", 4, 6, "SHA-512"));
+        this.otps.push(new OTPAccount("ggqgq@gmail.com", "GEZDGNBVGY3TQOJQGEZDGNBVGY3TQOJQGEZDGNBVGY3TQOJQGEZDGNBVGY3TQOJQGEZDGNBVGY3TQOJQGEZDGNBVGY3TQOJQGEZDGNA=", 3, 8, "SHA-512"));
+        this.otps.push(new OTPAccount("fqq<f@gmail.com", "GEZDGNBVGY3TQOJQGEZDGNBVGY3TQOJQGEZDGNBVGY3TQOJQGEZDGNBVGY3TQOJQGEZDGNBVGY3TQOJQGEZDGNBVGY3TQOJQGEZDGNA=", 12, 7, "SHA-512"));
+        this.otps.push(new OTPAccount("yuugtyg@gmail.com", "GEZDGNBVGY3TQOJQGEZDGNBVGY3TQOJQGEZDGNBVGY3TQOJQGEZDGNBVGY3TQOJQGEZDGNBVGY3TQOJQGEZDGNBVGY3TQOJQGEZDGNA=", 33, 8, "SHA-512"));
     }
 
-    addAccount(value: any, valid: boolean): void {
-        if (!valid) {
-            return;
-        }
-        console.log(value);
-        this.opts.push(new OTPAccount(value.account, value.secretKey, value.validity, value.length, value.hash));
+    addAccount(account: OTPAccount): void {
+        this.otps.push(account);
     }
 
     change(data: ITableSelectionChange) {
         let names = [];
-        this.opts.forEach((opt: OTPAccount) => {
+        this.otps.forEach((opt: OTPAccount) => {
             if (data.values.indexOf(opt.account) !== -1) {
                 names.push(opt.account);
             }

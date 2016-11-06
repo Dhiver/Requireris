@@ -31,7 +31,7 @@ export class OTPAccount {
         }
 
         getTimeLeftPercent(): number {
-            return this.timeLeft / this.timeStep * 100;
+            return Math.round(this.timeLeft / this.timeStep * 100);
         }
 
         genOTP(): void {

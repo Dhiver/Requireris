@@ -15,8 +15,9 @@ interface User {
     styleUrls: ['login.component.css']
 })
 export class LoginComponent {
+    isLogin: boolean = false;
 
-    @ViewChild('login') loginDialog
+    @ViewChild('login') loginDialog;
 
     loginForm = new FormGroup({
         username: new FormControl('', Validators.required),
@@ -46,6 +47,13 @@ export class LoginComponent {
 
         this.loginDialog.close()
         console.log("Je suis la");
+        value.username = "";
+        value.password = "";
+        this.isLogin = true;
+    }
+
+    logout() {
+        this.isLogin = false;
     }
 
     // onSignIn(googleUser: any) {

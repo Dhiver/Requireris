@@ -1,0 +1,18 @@
+// LoginOTP
+
+:host {
+    text-align: center;
+    md-input {
+        width: 80%;
+        margin: 15px 0px;
+        &.nums {
+            width: 40%;
+            margin: 3%;
+        }
+    }
+    .headerMenu {
+        .headerTitle, .close {
+            margin-left: auto;
+        }
+    }
+}

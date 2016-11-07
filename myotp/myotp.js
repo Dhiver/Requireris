@@ -16,6 +16,21 @@ function hmac(hash, secret, msg) {
 }
 
 /*
+ * This function compare two buffers without leaking timing information
+ * @param {Buffer} a - first buffer
+ * @param {Buffer} b - second buffer
+ * @param {String} hashName - the hash type to use
+ * @param {Integer} key - pseudo random length in bytes (default: 32)
+ * @return {Bool} return true if buffer contents are the same
+ */
+function timingSafeEqualHMAC(a, b, hashName, keyLength) {
+	const key = crypto.randomBytes(keyLength || 32);
+	const ah = hmac(hashName, key, a);
+	const bh = hmac(hashName, key, b);
+	return crypto.timingSafeEqual(ah, bh);
+}
+
+/*
  * return an allocated buffer from the given buffer from offset of given length
  * @param {Array} buf - origin buffer
  * @param {Integer} offset - start copying from
@@ -55,7 +70,7 @@ let hotp = {};
  * 	secret - This should be unique and secret for every user
  * 	as this is the seed that is used to calculate the HMAC.
  *
- * 	movingFactor - This is the offset of the HOTP counter.
+ * 	counterOffset - This is the offset of the HOTP counter.
  * 	Default is 0.
  *
  * 	tokenLength - How many digits to print out (min 6, max 8)
@@ -69,7 +84,7 @@ let hotp = {};
 hotp.gen = function(secret, opt) {
 	secret = secret || '';
 	opt = opt || {};
-	const movingFactor = opt.movingFactor || 0;
+	const counterOffset = opt.counterOffset || 0;
 	const tokenLength = opt.tokenLength || 6;
 	const hashName = opt.hashName || 'sha1';
 	const fromBase32 = opt.fromBase32 || false;
@@ -80,7 +95,8 @@ hotp.gen = function(secret, opt) {
 	opt.tokenLength = opt.tokenLength > 8 ? 8 : opt.tokenLength;
 
 	const counter = Buffer.alloc(8);
-	counter.writeUIntBE(movingFactor, 0, 8);
+	counter.writeUIntBE(counterOffset, 0, 8);
+	// Decode base32 secret if specified
 	if (fromBase32) {
 		const epurSecret = secret.replace(/\W+/g, '')
 		secret = base32.decode(secret);
@@ -88,6 +104,24 @@ hotp.gen = function(secret, opt) {
 	const hs = hmac(hashName, secret, counter);
 	const sbits = dynamicTruncation(hs).toString();
 	return sbits.substr(sbits.length - tokenLength);
+};
+
+hotp.verify = function(secret, token, opt) {
+	secret = secret || '';
+	token = token || '';
+	opt = opt || {};
+	const lookAheadWindow = opt.lookAheadWindow || 15;
+	const counterOffset = opt.counterOffset || 0;
+
+	let counter = counterOffset;
+	while (counter <= lookAheadWindow) {
+		console.log("counter:", counter);
+		opt.counterOffset = counter;
+		if (timingSafeEqualHMAC(this.gen(secret, opt), token, 'sha256'))
+			return {delta: counter - counterOffset}
+		++counter;
+	}
+	return null;
 };
 
 let totp = {};
@@ -106,7 +140,7 @@ let totp = {};
  * 	timeStep - Time interval (in seconds) before regenerate
  * 	a different token
  *
- * 	timeStart - Time offset (in seconds) to begin with.
+ * 	timeOffset - Time offset (in seconds) to begin with.
  *
  * 	tokenLength - How many digits to print out (min 6, max 8)
  * 	Default is 6.
@@ -119,13 +153,14 @@ totp.gen = function(secret, opt) {
 	secret = secret || '';
 	opt = opt || {};
 	opt.timeStep = opt.timeStep || 30;
-	opt.timeStart = opt.timeStart || 0;
+	opt.timeOffset = opt.timeOffset || 0;
 	opt.hashName = opt.hashName || 'sha256';
 
 	let localSecondsFromEpoch = Date.now() / 1000;
 	if (opt.secondsFromEpoch)
 		localSecondsFromEpoch = opt.secondsFromEpoch;
-	opt.movingFactor = Math.floor((localSecondsFromEpoch - opt.timeStart) / opt.timeStep);
+	// Compute actual counter offset
+	opt.counterOffset = Math.floor((localSecondsFromEpoch - opt.timeOffset) / opt.timeStep);
 	return hotp.gen(secret, opt);
 };
 

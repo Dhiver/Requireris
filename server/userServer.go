@@ -2,12 +2,18 @@ package main
 
 import (
 	"encoding/json"
+	"errors"
 	"log"
 	"net/http"
-	"reflect"
 
 	"golang.org/x/crypto/bcrypt"
 )
+
+// Response type
+type Response struct {
+	Success bool
+	msg     string
+}
 
 // UserIdentity type
 type UserIdentity struct {
@@ -20,15 +26,16 @@ func (user *User) SignUpHandler(w http.ResponseWriter, req *http.Request) {
 	decoder := json.NewDecoder(req.Body)
 	decoder.Decode(&user.Identity)
 	passwordHash := cryptPassword(user.Identity.Password)
-	log.Println(passwordHash)
 	err := accounts.AddUser(&UserDB{user.Identity.Username, passwordHash})
 	if err != nil {
+		user.Identity = UserIdentity{"", ""}
 		log.Println(err)
 		http.Error(w, err.Error(), 401)
 		return
 	}
 	user.Connect()
 	w.WriteHeader(http.StatusOK)
+	json.NewEncoder(w).Encode(Response{Success: true, msg: ""})
 }
 
 // SignInHandler User
@@ -43,8 +50,8 @@ func (user *User) SignInHandler(w http.ResponseWriter, req *http.Request) {
 	}
 	// create JWT token
 	user.Connect()
-	// accounts.ListUsers()
 	w.WriteHeader(http.StatusOK)
+	json.NewEncoder(w).Encode(Response{Success: true, msg: ""})
 }
 
 // LogoutHandler current user
@@ -65,6 +72,7 @@ func (user *User) AddSecretHandler(w http.ResponseWriter, req *http.Request) {
 		return
 	}
 	w.WriteHeader(http.StatusOK)
+	json.NewEncoder(w).Encode(Response{Success: true, msg: ""})
 }
 
 // RemoveSecretHandler to user
@@ -95,8 +103,10 @@ func (userIdentity *UserIdentity) CheckPassword() error {
 	if err != nil {
 		return err
 	}
-	if reflect.DeepEqual(passwordHash, cryptPassword(userIdentity.Password)) {
-		return err
+	err = bcrypt.CompareHashAndPassword(passwordHash, []byte(userIdentity.Password))
+	if err != nil {
+		log.Println(err.Error())
+		return errors.New("Bad Password for " + userIdentity.Username)
 	}
 	return nil
 }

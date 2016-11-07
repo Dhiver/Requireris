@@ -2,6 +2,15 @@ import {Observable} from 'rxjs/Rx';
 
 import { OTP } from './otp';
 
+export interface Secret {
+    account: string
+    secret: string
+    movingFactor: number
+    length: number
+    otpType: string
+    hashType: string
+}
+
 export class OTPAccount {
     counter: number;
     OTPtoken: string;
@@ -77,5 +86,16 @@ export class OTPAccount {
 
         toggleQrCode(): void {
             this.showQrCode = !this.showQrCode;
+        }
+
+        getData(): Secret {
+            return {
+                account: this.account,
+                secret: this.secret,
+                movingFactor: this.movingFactor,
+                length: this.length,
+                otpType: this.otpType,
+                hashType: this.hash
+            };
         }
     }

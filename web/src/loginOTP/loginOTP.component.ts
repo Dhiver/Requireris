@@ -27,6 +27,7 @@ export class LoginOTPComponent {
 
     otpType: string = "TOTP";
     counterValue: number = 30;
+    googleMode: boolean = false;
 
     constructor() {
 
@@ -51,7 +52,7 @@ export class LoginOTPComponent {
             );
     }
 
-    changeOTPtype(e) {
+    changeOTPtype(e): void {
         switch (e.value) {
             case "HOTP":
                 this.otpType = "HOTP";
@@ -62,5 +63,16 @@ export class LoginOTPComponent {
                 this.counterValue = 30;
                 break;
         }
+    }
+
+    googleModeChange(e): void {
+        if (!e.checked) {
+            return
+        }
+        this.loginOTPForm.controls["otpType"].reset({value: "TOTP", disabled: true});
+        this.loginOTPForm.controls["counter"].reset({value: 30, disabled: true});
+        this.loginOTPForm.controls["timeStart"].reset({value: 0, disabled: true});
+        this.loginOTPForm.controls["length"].reset({value: 6, disabled: true});
+        this.loginOTPForm.controls["hash"].reset({value: "SHA-1", disabled: true});
     }
 }

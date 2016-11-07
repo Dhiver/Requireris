@@ -2,6 +2,7 @@ package main
 
 import (
 	"database/sql"
+	"errors"
 	"log"
 	"path"
 )
@@ -13,7 +14,7 @@ const (
 
 // Accounts type
 type Accounts struct {
-	db *sql.DB
+	DB *sql.DB
 }
 
 // UserDB type
@@ -24,14 +25,14 @@ type UserDB struct {
 
 // Init accounts
 func (accounts *Accounts) Init() {
-	accounts.db = Init(path.Join(DatabaseFolder, dbName), dbPassphrase)
-	ExecFromFile(accounts.db, path.Join(MigrationsFolder, "accounts.sql"))
+	accounts.DB = Init(path.Join(DatabaseFolder, dbName), dbPassphrase)
+	ExecFromFile(accounts.DB, path.Join(MigrationsFolder, "accounts.sql"))
 }
 
 // AddUser to database
 func (accounts *Accounts) AddUser(userDB *UserDB) error {
 	cmd := "INSERT INTO `users` (user, password_hash) values('" + userDB.User + "','" + string(userDB.PasswordHash) + "');"
-	_, err := accounts.db.Exec(cmd)
+	_, err := accounts.DB.Exec(cmd)
 	if err != nil {
 		return err
 	}
@@ -41,19 +42,24 @@ func (accounts *Accounts) AddUser(userDB *UserDB) error {
 // GetPasswordHash by user
 func (accounts *Accounts) GetPasswordHash(user string) (passwordHash []byte, err error) {
 	cmd := "select password_hash from users where user='" + user + "';"
-	rows, err := accounts.db.Query(cmd)
+	rows, err := accounts.DB.Query(cmd)
 	defer rows.Close()
 	if err != nil {
 		return []byte{}, err
 	}
-	rows.Scan(&passwordHash)
+	for rows.Next() {
+		rows.Scan(&passwordHash)
+	}
+	if len(passwordHash) == 0 {
+		err = errors.New("Unknown Account " + user)
+	}
 	return
 }
 
-// ListUsers from db
+// ListUsers from DB
 func (accounts *Accounts) ListUsers() error {
 	cmd := "select user, password_hash from users;"
-	rows, err := user.DB.Query(cmd)
+	rows, err := accounts.DB.Query(cmd)
 	defer rows.Close()
 	if err != nil {
 		log.Println(err)

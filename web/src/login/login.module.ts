@@ -8,6 +8,7 @@ import { LoginComponent } from './login.component';
 import {MdIconModule, MdIconRegistry } from '@angular2-material/icon';
 import {MdButtonModule } from '@angular2-material/button';
 import {MdInputModule } from '@angular2-material/input';
+import {MdButtonToggleModule } from '@angular2-material/button-toggle';
 
 import { Ng2MaterialModule } from '../ng2-material';
 
@@ -25,7 +26,8 @@ import { Ng2MaterialModule } from '../ng2-material';
 
         MdIconModule,
         MdButtonModule,
-        MdInputModule
+        MdInputModule,
+        MdButtonToggleModule
     ],
     providers: [
         MdIconRegistry

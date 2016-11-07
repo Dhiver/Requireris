@@ -28,7 +28,8 @@ function hotp(secret, movingFactor, len, hash) {
 	len = len > 8 ? 8 : len;
 	const counter = Buffer.alloc(8);
 	counter.writeUIntBE(movingFactor, 0, 8);
-	const decodedSecret = base32.decode(secret);
+	epurSecret = secret.replace(/\W+/g, '').toUpperCase()
+	const decodedSecret = base32.decode(epurSecret);
 	const hs = hmac(hash, decodedSecret, counter);
 	const sbits = dynamicTruncation(hs).toString();
 	return sbits.substr(sbits.length - len);
@@ -40,5 +41,5 @@ function totp(secret, timeStep, timeStart, len, hash) {
 	return hotp(secret, counter, len, hash);
 }
 
-console.log(hotp('t6i2dqvcvyafgqnroqulgnshhe7qxxdz', 0, 6, 'sha1'));
-// console.log(totp('GEZDGNBVGY3TQOJQGEZDGNBVGY3TQOJQ', 30, 0, 8, 'sha1'));
+//console.log(hotp('t6i2dqvcvyafgqnroqulgnshhe7qxxdz', 0, 6, 'sha1'));
+console.log(totp('GEZDGNBVGY3TQOJQGEZDGNBVGY3TQOJQGEZDGNBVGY3TQOJQGEZDGNBVGY3TQOJQGEZDGNBVGY3TQOJQGEZDGNBVGY3TQOJQGEZDGNA', 30, 0, 8, 'sha512'));

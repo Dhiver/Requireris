@@ -106,6 +106,30 @@ hotp.gen = function(secret, opt) {
 	return sbits.substr(sbits.length - tokenLength);
 };
 
+/*
+ * Check a HMAC-Based One-Time Password
+ *
+ * @return {Object} null if failure, { delta: # } on success
+ * delta is the counter step difference between the client and the server
+ *
+ * Arguments:
+ *
+ * args
+ * 	secret - This should be unique and secret for every user
+ * 	as this is the seed that is used to calculate the HMAC.
+ *
+ * 	token - HOTP token to validate.
+ *
+ * 	lookAheadWindow - The allowable margin for the counter.
+ * 	The server will compute the next n token and will compare them
+ * 	with the given token.
+ * 	Default is 15.
+ *
+ * 	counterOffset - Counter value. This should be stored by the
+ * 	application, must be user specific, and be incremented for
+ * 	each request.
+ * 	Default is 0.
+ */
 hotp.verify = function(secret, token, opt) {
 	secret = secret || '';
 	token = token || '';
@@ -166,6 +190,31 @@ totp.gen = function(secret, opt) {
 	return hotp.gen(secret, opt);
 };
 
+/*
+ * Check a Time-Based One-Time Password
+ *
+ * @return {Object} null if failure, { delta: # } on success
+ * delta is the counter step difference between the client and the server
+ *
+ * Arguments:
+ *
+ * args
+ * 	secret - This should be unique and secret for every user
+ * 	as this is the seed that is used to calculate the HMAC.
+ *
+ * 	token - TOTP token to validate.
+ *
+ * 	lookAheadWindow - The allowable margin for the counter.
+ * 	The server will compute the next n token and will compare them
+ * 	with the given token.
+ * 	Default is 15.
+ *
+ * 	timeOffset - The time offset
+ * 	Default is 0.
+ *
+ * 	timeStep - The time step of the counter.
+ * 	Default is 30.
+ */
 totp.verify = function(secret, token, opt) {
 	secret = secret || '';
 	token = token || '';

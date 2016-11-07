@@ -9,15 +9,19 @@
         <login></login>
     </md-toolbar>
     <md-content class="listOTP md-padding" layout="row" layout-wrap layout-align="center start">
-        <div *ngFor="let otp of otps" class="otpAccount">
+        <div *ngFor="let otp of otps; let key = index" class="otpAccount">
             <material-card>
-                <button md-icon-button class="more md-icon-button" aria-label="More">
-                    <md-icon class="material-icons">more_vert</md-icon>
+                <button md-icon-button class="delete md-icon-button" aria-label="Delete" (click)="removeAccount(key)">
+                    <md-icon class="material-icons">delete</md-icon>
+                </button>
+                <button md-icon-button class="qr-code md-icon-button" aria-label="QrCode" (click)="otp.toggleQrCode()">
+                    <md-icon class="material-icons">photo_camera</md-icon>
                 </button>
                 <material-card-main>
-                    <material-proress-bar-circle [percentage]="otp.getTimeLeftPercent()">
-                        {{otp.timeLeft}}
+                    <material-proress-bar-circle *ngIf="!otp.showQrCode" class="content" [percentage]="otp.getTimeLeftPercent()" (click)="otp.updateCounter()">
+                        {{otp.counter}}
                     </material-proress-bar-circle>
+                    <qr-code *ngIf="otp.showQrCode" class="content" [data]="otp.OTPKeyURI" [size]="120" [type]="11"></qr-code>
                     <span class="account">{{otp.account}}</span>
                 </material-card-main>
                 <material-card-actions>
@@ -26,33 +30,4 @@
             </material-card>
         </div>
     </md-content>
-
-    <!-- <md-content #content class="table">
-    <md-toolbar color="accent" *ngIf="selection.length != 0">
-    <span>{{selection.length}} item{{selection.length > 1 ? 's' : ''}} selected</span>
-    <span flex hide show-gt-md></span>
-    <span class="md-caption" hide show-gt-md>{{selection | join:' | '}}</span>
-    <md-icon class="remove material-icons">delete</md-icon>
-</md-toolbar>
-<md-data-table layout-fill [selectable]="true" (onSelectableChange)="change($event)">
-<thead>
-<tr md-data-table-header-selectable-row>
-<th>Account</th>
-<th>TimeLeft</th>
-<th>Seconds</th>
-<th>OTP</th>
-</tr>
-</thead>
-<tbody>
-<tr *ngFor="let opt of opts" md-data-table-selectable-row [selectable-value]="opt.account">
-<td>{{ opt.account }}</td>
-<td>
-<md-progress-circle mode="determinate" [value]="opt.getTimeLeftPercent()"></md-progress-circle>
-</td>
-<td>{{ opt.timeLeft }}</td>
-<td>{{ opt.OTPtoken }}</td>
-</tr>
-</tbody>
-</md-data-table>
-</md-content> -->
 </md-sidenav-layout>

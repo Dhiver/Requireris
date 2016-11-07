@@ -1,7 +1,4 @@
 // // App
-@import "../ng2-material/core/style/variables";
-@import "../ng2-material/core/style/default-theme";
-
 @import '../scss/variables';
 
 :host {
@@ -10,7 +7,7 @@
             background: $accent;
         }
         md-sidenav {
-            width: 300px;
+            width: 350px;
         }
         .headerBar {
             display: flex;
@@ -24,27 +21,38 @@
                 display: inline-block;
                 margin: 0 20px 0 20px;
                 width: 300px;
-                .more {
-                    position: absolute;
-                    top: 25px;
-                    right: 5px;
-                }
-                material-card-main {
-                    flex-direction: column;
-                    material-proress-bar-circle {
-                        margin: 25px auto;
+                material-card {
+                    user-select: none;
+                    .delete, .qr-code {
+                        position: absolute;
+                        top: 25px;
                     }
-                    .account {
+                    .delete {
+                        right: 5px;
+                    }
+                    .qr-code {
+                        left: 5px;
+                    }
+                    material-card-main {
+                        flex-direction: column;
+                        .content {
+                            margin: 25px auto;
+                            &material-proress-bar-circle {
+
+                            }
+                        }
+                        .account {
+                            text-align: center;
+                            margin-bottom: 10px;
+                        }
+                    }
+                    material-card-actions {
                         text-align: center;
-                        margin-bottom: 10px;
-                    }
-                }
-                material-card-actions {
-                    text-align: center;
-                    padding: 10px;
-                    .otp {
-                        font-size: 30px;
-                        color: $color;
+                        padding: 10px;
+                        .otp {
+                            font-size: 30px;
+                            color: $color;
+                        }
                     }
                 }
             }

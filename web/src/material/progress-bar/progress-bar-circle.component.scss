@@ -10,6 +10,7 @@ $backColor: #FAFAFA;
     .c100 {
         $background-color: $backColor;
         .inside {
+            cursor: pointer;
             z-index: 10;
         }
         .slice {

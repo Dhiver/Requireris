@@ -1,12 +1,26 @@
 // LoginOTP
 
+$width: 80%;
+
 :host {
     text-align: center;
     md-input {
-        width: 80%;
+        width: $width;
         margin: 15px 0px;
-        &.nums {
-            width: 40%;
+    }
+    .otpGroup, .hashGroup {
+        display: block;
+        margin-bottom: 20px;
+    }
+    .double {
+        & > * {
+            // width: $width / 2;
+            margin: 3%;
+        }
+    }
+    .triple {
+        & > * {
+            width: 25%;
             margin: 3%;
         }
     }
@@ -14,5 +28,9 @@
         .headerTitle, .close {
             margin-left: auto;
         }
+    }
+    .add {
+        vertical-align: middle;
+        padding: 5px 10px 10px 10px;
     }
 }

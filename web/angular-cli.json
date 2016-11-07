@@ -20,7 +20,8 @@
             "styles": [
                 "styles.css",
                 "ng2-material/all.css",
-                "ng2-material/font/font.css"
+                "ng2-material/font/font.css",
+                "theme.css"
             ],
             "scripts": [],
             "environments": {

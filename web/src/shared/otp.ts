@@ -66,7 +66,7 @@ export class OTP {
             this.issuer = issuer;
             this.account = account;
             this.commonURI = '/' + encodeURI(this.issuer) + ':' + encodeURI(this.account)
-            + '?secret=' + encodeURIComponent(this.secret.replace(/[\s\.\_\-]+/g, '').toUpperCase())
+            + '?secret=' + encodeURIComponent(this.secret.replace(/\W+/g, '').toUpperCase())
             + '&issuer=' + encodeURIComponent(this.issuer)
             + '&algorithm=' + this.hash.replace('-', '')
             + '&digits=' + (this.length);

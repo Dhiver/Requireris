@@ -16,10 +16,10 @@
 		- [ ] Bi-Directional Authentication
 	- [x] Generate Key Uri for QRCode
 - [ ] Wery
-	- [ ] QR Code generator (https://www.npmjs.com/browse/keyword/qrcode for web based)
+	- [x] QR Code generator
 	- [x] no AuthAccount => empty
 	- [x] multi account
-	- [ ] edit account
+	- [x] remove account
     - [ ] AuthAccount
         - [x] crytped DB
         - [ ] auth by user / login
@@ -31,11 +31,11 @@
 
 - [ ] Web Interface / Electron App
 	- [x] Angular2
-	- [ ] REVOIR INTERFACE
+	- [x] REVOIR INTERFACE
 	- [ ] show QR Code
-	- [ ] HOTP / TOTP
-		- [ ] change form login
-		- [ ] change table cell
+	- [x] HOTP / TOTP
+		- [x] change form login
+		- [x] change table cell
 
 - [ ] Android / iOS App
 	- [x] NativeScript

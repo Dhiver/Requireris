@@ -14,7 +14,7 @@ class OTPKeyUri {
 
 	init() {
 		this.ret += '/' + encodeURI(this.issuer || '') + ':' + encodeURI(this.accountName || '')
-		+ '?secret=' + this.secret.replace(/[\s\.\_\-]+/g, '').toUpperCase()
+		+ '?secret=' + this.secret.replace(/\W+/g, '').toUpperCase()
 		+ '&issuer=' + encodeURIComponent(this.issuer || '')
 		+ '&algorithm=' + (this.algo || 'sha1').toUpperCase()
 		+ '&digits=' + (this.digits || 6);
@@ -29,6 +29,6 @@ class OTPKeyUri {
 	}
 }
 
-const otp = new OTPKeyUri('ACME Co', 'john.doe@email.com', 'HXDMVJECJJWSRB3HWIZR4IFUGFTMXBOZ', 6, 'sha1');
+const otp = new OTPKeyUri('ACME Co', 'john.doe@email.com', 'HXDMVJECJJWSRB3HWIZR4IFUGFTMXBOZ=', 6, 'sha1');
 otp.init();
 console.log(otp.genTOTP(0));

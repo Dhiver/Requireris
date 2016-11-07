@@ -1,0 +1,23 @@
+{
+  "author": "Bastien DHIVER (bastien.dhiver@epitech.eu)",
+  "name": "myotp",
+  "description": "Node One Time Password library, supports HOTP, TOTP and works with Google Authenticator",
+  "version": "1.0.0",
+  "homepage": "https://dhiwery.io/myotp",
+  "repository": {
+    "type": "git",
+    "url": "git://git@git.epitech.eu:/dhiver_b/myotp.git"
+  },
+  "main": "myotp.js",
+  "scripts": {
+    "test": "NODE_ENV=test mocha"
+  },
+  "engines": {
+    "node": "> v0.6.0"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "mocha": "~1.18.2",
+    "thirty-two": "1.0.2"
+  }
+}

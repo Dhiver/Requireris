@@ -110,10 +110,12 @@ hotp.verify = function(secret, token, opt) {
 	secret = secret || '';
 	token = token || '';
 	opt = opt || {};
-	const lookAheadWindow = opt.lookAheadWindow || 15;
+	let lookAheadWindow = opt.lookAheadWindow || 15;
 	const counterOffset = opt.counterOffset || 0;
 
 	let counter = counterOffset;
+	if (counter > lookAheadWindow)
+		lookAheadWindow += counter;
 	while (counter <= lookAheadWindow) {
 		console.log("counter:", counter);
 		opt.counterOffset = counter;
@@ -163,6 +165,22 @@ totp.gen = function(secret, opt) {
 	opt.counterOffset = Math.floor((localSecondsFromEpoch - opt.timeOffset) / opt.timeStep);
 	return hotp.gen(secret, opt);
 };
+
+totp.verify = function(secret, token, opt) {
+	secret = secret || '';
+	token = token || '';
+	opt = opt || {};
+	opt.timeStep = opt.timeStep || 30;
+	opt.timeOffset = opt.timeOffset || 0;
+	opt.hashName = opt.hashName || 'sha256';
+
+	let localSecondsFromEpoch = Date.now() / 1000;
+	if (opt.secondsFromEpoch)
+		localSecondsFromEpoch = opt.secondsFromEpoch;
+	// TO FIX
+	opt.counterOffset = Math.floor((localSecondsFromEpoch - opt.timeOffset) / opt.timeStep);
+	return hotp.verify(secret, token, opt);
+}
 
 module.exports.hotp = hotp;
 module.exports.totp = totp;

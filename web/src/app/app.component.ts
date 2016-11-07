@@ -2,9 +2,11 @@ import { Component } from '@angular/core';
 
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 
+import { Http, Response, Headers, RequestOptions } from '@angular/http';
+
 import { ITableSelectionChange } from '../ng2-material';
 
-import { OTPAccount } from "../shared/otp-account";
+import { OTPAccount, Secret } from "../shared/otp-account";
 
 @Component({
     selector: 'app',
@@ -12,11 +14,11 @@ import { OTPAccount } from "../shared/otp-account";
     styleUrls: ['app.component.css']
 })
 export class AppComponent {
-    selection: string[] = [];
     otps: Array<OTPAccount> = [];
+    isLogin: boolean = false;
 
 
-    constructor() {
+    constructor(private http: Http) {
         this.addAccount(new OTPAccount("tot@gmail.com", "GEZDGNBVGY3TQOJQGEZDGNBVGY3TQOJQGEZDGNBVGY3TQOJQGEZDGNBVGY3TQOJQGEZDGNBVGY3TQOJQGEZDGNBVGY3TQOJQGEZDGNA=", "TOTP", 30, 8, "SHA-512"));
         this.addAccount(new OTPAccount("qsfsf@gmail.com", "GEZDGNBVGY3TQOJQGEZDGNBVGY3TQOJQGEZDGNBVGY3TQOJQGEZDGNBVGY3TQOJQGEZDGNBVGY3TQOJQGEZDGNBVGY3TQOJQGEZDGNA=", "HOTP", 10, 8, "SHA-512"));
         this.addAccount(new OTPAccount("ijqsif@gmail.com", "GEZDGNBVGY3TQOJQGEZDGNBVGY3TQOJQGEZDGNBVGY3TQOJQGEZDGNBVGY3TQOJQGEZDGNBVGY3TQOJQGEZDGNBVGY3TQOJQGEZDGNA=", "TOTP", 4, 6, "SHA-512"));
@@ -28,6 +30,9 @@ export class AppComponent {
 
     addAccount(account: OTPAccount): void {
         this.otps.push(account);
+        if (this.isLogin) {
+            this.addAccountToServer(account.getData());
+        }
     }
 
     removeAccount(key: number): void {
@@ -35,13 +40,38 @@ export class AppComponent {
         this.otps.splice(key, 1);
     }
 
-    change(data: ITableSelectionChange) {
-        let names = [];
-        this.otps.forEach((opt: OTPAccount) => {
-            if (data.values.indexOf(opt.account) !== -1) {
-                names.push(opt.account);
-            }
-        });
-        this.selection = names;
+    getAccoutsFromServer() {
+        this.http.get('/secret/list').map((res: Response) => res.json())
+        .subscribe(
+            data => {
+                let secrets : Secret[] = data;
+                for (let secret of secrets) {
+                    this.otps.push(new OTPAccount(secret.account, secret.secret, secret.otpType, secret.movingFactor, secret.length, secret.hashType));
+                }
+            },
+            err => console.error(err)
+        );
+    }
+
+    addAccountToServer(secret: Secret) {
+        let body = JSON.stringify(secret);
+        let headers = new Headers({ 'Content-Type': 'application/json' });
+        let options = new RequestOptions({ headers: headers });
+        this.http.post('/secret/add', body, options)
+        .map((res:Response) => res.json())
+        .subscribe(
+            data => {
+                console.log(data);
+            },
+            err => console.error(err)
+        );
+    }
+
+    onLogin(): void {
+        this.isLogin = true;
+        this.getAccoutsFromServer();
+        for (let otp of this.otps) {
+            this.addAccountToServer(otp.getData());
+        }
     }
 }

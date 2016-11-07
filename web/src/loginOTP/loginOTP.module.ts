@@ -11,6 +11,7 @@ import { MdInputModule } from '@angular2-material/input';
 import { MdToolbarModule } from '@angular2-material/toolbar';
 import { MdButtonModule } from '@angular2-material/button';
 import { MdRadioModule } from '@angular2-material/radio';
+import { MdCheckboxModule } from '@angular2-material/checkbox';
 
 @NgModule({
     declarations: [
@@ -26,7 +27,8 @@ import { MdRadioModule } from '@angular2-material/radio';
         MdToolbarModule,
         MdInputModule,
         MdButtonModule,
-        MdRadioModule
+        MdRadioModule,
+        MdCheckboxModule
     ],
     providers: [
         MdIconRegistry,

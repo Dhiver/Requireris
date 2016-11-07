@@ -28,6 +28,9 @@
             <span md-suffix>digits</span>
         </md-input>
     </div>
+    <md-checkbox class="googleCheckbox" [checked]="googleMode" (change)="googleModeChange($event)">
+        Google Mode Compatibility
+    </md-checkbox>
     <button md-raised-button class="md-raised md-primary" type="submit" [disabled]="!loginOTPForm.valid">
         <md-icon class="add material-icons">person_add</md-icon>
         Add Account

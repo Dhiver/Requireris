@@ -22,7 +22,7 @@ var user User
 
 func main() {
 	accounts.Init()
-	defer accounts.db.Close()
+	defer accounts.DB.Close()
 
 	http.Handle("/", http.FileServer(http.Dir("dist")))
 
@@ -34,7 +34,7 @@ func main() {
 	http.HandleFunc("/secret/remove", PostOnly(user.RemoveSecretHandler))
 	http.HandleFunc("/secret/list", GetOnly(user.ListSecretHandler))
 
-	// err := http.ListenAndServe(":8080", nil)
+	accounts.ListUsers()
 
 	err := http.ListenAndServeTLS(":8080", path.Join(KeysFolder, "https.pem"), path.Join(KeysFolder, "https.key"), nil)
 	if err != nil {

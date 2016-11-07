@@ -2,11 +2,11 @@
     <md-sidenav #menu mode="side" opened>
         <login-otp (onNewAccount)="addAccount" (closeMenu)="menu.close()"></login-otp>
     </md-sidenav>
-    <md-toolbar class="headerBar" color="primary" *ngIf="selection.length == 0">
+    <md-toolbar class="headerBar" color="primary">
         <md-icon *ngIf="!menu.opened" class="menu material-icons" (click)="menu.open($event)">menu</md-icon>
         <span>One Time Password</span>
         <span flex></span>
-        <login></login>
+        <login (onLogin)="onLogin()"></login>
     </md-toolbar>
     <md-content class="listOTP md-padding" layout="row" layout-wrap layout-align="center start">
         <div *ngFor="let otp of otps; let key = index" class="otpAccount">

@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, ViewChild, Output, EventEmitter } from '@angular/core';
 
 import { Http, Response, Headers, RequestOptions } from '@angular/http';
 
@@ -18,8 +18,10 @@ export class LoginComponent {
     isLogin: boolean = false;
 
     @ViewChild('login') loginDialog;
+    @Output() onLogin = new EventEmitter();
 
     loginForm = new FormGroup({
+        typeConnect: new FormControl('sign_in', Validators.required),
         username: new FormControl('', Validators.required),
         password: new FormControl('', Validators.required)
     });
@@ -38,17 +40,22 @@ export class LoginComponent {
         let body = JSON.stringify(user);
         let headers = new Headers({ 'Content-Type': 'application/json' });
         let options = new RequestOptions({ headers: headers });
-        this.http.post('/auth/sign_up', body, options)
+        this.http.post('/auth/' + value.typeConnect, body, options)
         .map((res:Response) => res.json())
         .subscribe(
-            data => { console.log(data)},
+            data => {
+                console.log(data);
+                value.username = "";
+                value.password = "";
+                this.onLoginSuccess();
+            },
             err => console.error(err)
         );
+    }
 
-        this.loginDialog.close()
-        console.log("Je suis la");
-        value.username = "";
-        value.password = "";
+    onLoginSuccess() {
+        this.onLogin.emit();
+        this.loginDialog.close();
         this.isLogin = true;
     }
 

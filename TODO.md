@@ -22,10 +22,8 @@
 	- [x] remove account
     - [ ] AuthAccount
         - [x] crytped DB
-        - [ ] auth by user / login
+        - [x] auth by user / login
         - [ ] auth by Google
-        - [ ] auth by Facebook
-        - [ ] auth by Yammer ???
 	- [ ] compatibilty mode (ex: Google)
 
 

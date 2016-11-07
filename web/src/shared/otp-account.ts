@@ -3,42 +3,79 @@ import {Observable} from 'rxjs/Rx';
 import { OTP } from './otp';
 
 export class OTPAccount {
-    timeLeft: number;
+    counter: number;
     OTPtoken: string;
+    OTPKeyURI: string;
     timeSubscribe: any;
+    timeStart: number;
     otp: OTP;
+    showQrCode: boolean = false;
 
     constructor(
         public account: string,
         private secret: string,
-        private timeStep: number,
+        private otpType: string,
+        private movingFactor: number,
         private length: number,
-        private hash: string) {
-             this.otp = new OTP(secret, length, hash);
-             this.otp.genCommonURI("DHIWERY Inc.", "work@dhiwery.io");
-            this.timeLeft = timeStep;
+        private hash: string,
+        timeStart?: number) {
+            this.timeStart = timeStart || 0;
+            this.otp = new OTP(secret, length, hash);
+            this.otp.genCommonURI("DHIWERY Inc.", "work@dhiwery.io");
+            this.counter = this.movingFactor;
+            switch(this.otpType) {
+                case "HOTP":
+                    break;
+                case "TOTP":
+                    this.initTOTP();
+                    break;
+            }
             this.genOTP();
-            this.timeSubscribe = Observable.interval(1000).map((x) => {
-                this.timeLeft -= 1;
-            }).subscribe((x) => {
-                if (this.timeLeft <= 0) {
-                    this.timeLeft = this.timeStep;
-                    this.genOTP();
-                }
-            });
-            console.log(this.otp.genTOTPKeyURI(30));
-            console.log(this.otp.genHOTPKeyURI(0));
         }
 
         getTimeLeftPercent(): number {
-            return Math.round(this.timeLeft / this.timeStep * 100);
+            if (this.otpType == "HOTP") {
+                return 100;
+            }
+            return Math.round(this.counter / this.movingFactor * 100);
         }
 
         genOTP(): void {
             try {
-                this.OTPtoken = this.otp.totp(this.timeStep)
+                switch(this.otpType) {
+                    case "HOTP":
+                        this.OTPKeyURI = this.otp.genHOTPKeyURI(this.counter);
+                        this.OTPtoken = this.otp.hotp(this.counter);
+                        break;
+                    case "TOTP":
+                        this.OTPKeyURI = this.otp.genTOTPKeyURI(this.movingFactor);
+                        this.OTPtoken = this.otp.totp(this.movingFactor, this.timeStart);
+                        break;
+                }
             } catch (e) {
                 console.error(e);
             }
+        }
+
+        updateCounter() {
+            if (this.otpType == "HOTP") {
+                this.counter++;
+                this.genOTP();
+            }
+        }
+
+        initTOTP() {
+            this.timeSubscribe = Observable.interval(1000).map((x) => {
+                this.counter -= 1;
+            }).subscribe((x) => {
+                if (this.counter <= 0) {
+                    this.counter = this.movingFactor;
+                    this.genOTP();
+                }
+            });
+        }
+
+        toggleQrCode(): void {
+            this.showQrCode = !this.showQrCode;
         }
     }

@@ -5,30 +5,28 @@ import { HttpModule } from '@angular/http';
 
 import { AppComponent } from './app.component';
 
-import { LoginComponent } from '../login';
-import { LoginOTPComponent } from '../loginOTP';
+import { LoginModule } from '../login';
+import { LoginOTPModule } from '../loginOTP';
 
-import {MdIconModule, MdIconRegistry } from '@angular2-material/icon';
-import {MdButtonModule } from '@angular2-material/button';
-import {MdInputModule } from '@angular2-material/input';
-import {MdCardModule } from '@angular2-material/card';
-import {MdToolbarModule } from '@angular2-material/toolbar';
-import {MdSidenavModule } from '@angular2-material/sidenav';
-import {MdProgressCircleModule } from '@angular2-material/progress-circle';
-import {MdListModule } from '@angular2-material/list';
+import { MdIconModule, MdIconRegistry } from '@angular2-material/icon';
+import { MdButtonModule } from '@angular2-material/button';
+import { MdToolbarModule } from '@angular2-material/toolbar';
+import { MdSidenavModule } from '@angular2-material/sidenav';
+import { MdCardModule } from '@angular2-material/card';
+
 import { Ng2MaterialModule } from '../ng2-material';
 
 import { MaterialModule }       from '../material';
 
 import { ClipboardModule }  from 'angular2-clipboard';
 
+import { QRCodeModule } from 'angular2-qrcode';
+
 import { JoinPipe } from './join.pipe';
 
 @NgModule({
     declarations: [
         AppComponent,
-        LoginComponent,
-        LoginOTPComponent,
         JoinPipe
     ],
     imports: [
@@ -42,14 +40,15 @@ import { JoinPipe } from './join.pipe';
         MdIconModule,
         MdToolbarModule,
         MdButtonModule,
-        MdInputModule,
         MdCardModule,
-        MdProgressCircleModule,
         MdSidenavModule,
-        MdListModule,
-
         MaterialModule,
-        ClipboardModule
+
+        ClipboardModule,
+        QRCodeModule,
+
+        LoginModule,
+        LoginOTPModule,
     ],
     providers: [
         MdIconRegistry

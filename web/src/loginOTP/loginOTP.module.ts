@@ -5,15 +5,12 @@ import { HttpModule } from '@angular/http';
 
 import { LoginOTPComponent } from './loginOTP.component';
 
-import {MdIconModule, MdIconRegistry } from '@angular2-material/icon';
-import {MdButtonModule } from '@angular2-material/button';
-import {MdInputModule } from '@angular2-material/input';
-import {MdCardModule } from '@angular2-material/card';
-import {MdToolbarModule } from '@angular2-material/toolbar';
-import {MdSidenavModule } from '@angular2-material/sidenav';
-import {MdProgressCircleModule } from '@angular2-material/progress-circle';
-import {MdListModule } from '@angular2-material/list';
-import { Ng2MaterialModule } from '../ng2-material';
+import { MdUniqueSelectionDispatcher } from '@angular2-material/core';
+import { MdIconModule, MdIconRegistry } from '@angular2-material/icon';
+import { MdInputModule } from '@angular2-material/input';
+import { MdToolbarModule } from '@angular2-material/toolbar';
+import { MdButtonModule } from '@angular2-material/button';
+import { MdRadioModule } from '@angular2-material/radio';
 
 @NgModule({
     declarations: [
@@ -25,20 +22,18 @@ import { Ng2MaterialModule } from '../ng2-material';
         ReactiveFormsModule,
         HttpModule,
 
-        Ng2MaterialModule,
-
         MdIconModule,
         MdToolbarModule,
-        MdButtonModule,
         MdInputModule,
-        MdCardModule,
-        MdProgressCircleModule,
-        MdSidenavModule,
-        MdListModule
+        MdButtonModule,
+        MdRadioModule
     ],
     providers: [
-        MdIconRegistry
+        MdIconRegistry,
+        MdUniqueSelectionDispatcher
     ],
-    bootstrap: [LoginOTPComponent]
+    exports: [
+        LoginOTPComponent
+    ]
 })
 export class LoginOTPModule { }

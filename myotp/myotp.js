@@ -125,7 +125,6 @@ totp.gen = function(secret, opt) {
 	let localSecondsFromEpoch = Date.now() / 1000;
 	if (opt.secondsFromEpoch)
 		localSecondsFromEpoch = opt.secondsFromEpoch;
-	localSecondsFromEpoch = 20000000000;
 	opt.movingFactor = Math.floor((localSecondsFromEpoch - opt.timeStart) / opt.timeStep);
 	return hotp.gen(secret, opt);
 };

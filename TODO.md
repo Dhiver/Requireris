@@ -6,7 +6,7 @@
 ## Bonus
 
 - [ ] Dhiver
-	- [ ] Develop a server side token verification program
+	- [ ] Develop a PAM module
 		- [ ] Validation
 		- [ ] Throttling
 		- [ ] Resynchronization
@@ -14,7 +14,6 @@
 			- [ ] Deterministic
 			- [ ] Random
 		- [ ] Bi-Directional Authentication
-	- [ ] Create a PAM module with this server program
 	- [x] Generate Key Uri for QRCode
 - [ ] Wery
 	- [x] QR Code generator

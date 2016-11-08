@@ -9,7 +9,7 @@
     <md-input placeholder="Secret Key (base32)" formControlName="secretKey" type="password"></md-input>
     <md-radio-group formControlName="otpType" class="otpGroup double" (change)="changeOTPtype($event)">
         <md-radio-button value="HOTP">HOTP</md-radio-button>
-        <md-radio-button value="TOTP" checked="true">TOTP</md-radio-button>
+        <md-radio-button value="TOTP">TOTP</md-radio-button>
     </md-radio-group>
     <md-radio-group formControlName="hash" class="hashGroup triple">
         <md-radio-button value="SHA-1">SHA-1</md-radio-button>
@@ -17,8 +17,8 @@
         <md-radio-button value="SHA-512">SHA-512</md-radio-button>
     </md-radio-group>
     <div class="triple">
-        <md-input *ngIf="otpType == 'HOTP'" placeholder="Counter" type="number" formControlName="counter" [(ngModel)]="counterValue" min="0" max="4294967296"></md-input>
-        <md-input *ngIf="otpType == 'TOTP'" placeholder="Validity Time" type="number" formControlName="counter" [(ngModel)]="counterValue" min="10" max="4294967296">
+        <md-input *ngIf="otpType == 'HOTP'" placeholder="Counter" type="number" formControlName="counter" min="0" max="4294967296"></md-input>
+        <md-input *ngIf="otpType == 'TOTP'" placeholder="Validity Time" type="number" formControlName="counter" min="10" max="4294967296">
             <span md-suffix>sec</span>
         </md-input>
         <md-input *ngIf="otpType == 'TOTP'" placeholder="Time Start" type="number" formControlName="timeStart" min="0" max="4294967296">
@@ -28,7 +28,7 @@
             <span md-suffix>digits</span>
         </md-input>
     </div>
-    <md-checkbox class="googleCheckbox" [checked]="googleMode" (change)="googleModeChange($event)">
+    <md-checkbox class="googleCheckbox" [checked]="isGoogleMode()" (change)="googleModeChange($event)">
         Google Mode Compatibility
     </md-checkbox>
     <button md-raised-button class="md-raised md-primary" type="submit" [disabled]="!loginOTPForm.valid">

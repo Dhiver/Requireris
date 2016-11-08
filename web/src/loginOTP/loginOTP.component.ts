@@ -26,7 +26,6 @@ export class LoginOTPComponent {
     @Output() closeMenu = new EventEmitter();
 
     otpType: string = "TOTP";
-    counterValue: number = 30;
     googleMode: boolean = false;
 
     constructor() {
@@ -50,29 +49,41 @@ export class LoginOTPComponent {
                 value.hash,
                 value.timeStart)
             );
-    }
+        }
 
-    changeOTPtype(e): void {
-        switch (e.value) {
-            case "HOTP":
-                this.otpType = "HOTP";
-                this.counterValue = 0;
-                break;
-            case "TOTP":
-                this.otpType = "TOTP";
-                this.counterValue = 30;
-                break;
+        changeOTPtype(e): void {
+            switch (e.value) {
+                case "HOTP":
+                    this.otpType = "HOTP";
+                    this.loginOTPForm.controls["otpType"].setValue("HOTP");
+                    this.loginOTPForm.controls["counter"].setValue(0);
+                    break;
+                case "TOTP":
+                    this.otpType = "TOTP";
+                    this.loginOTPForm.controls["otpType"].setValue("TOTP");
+                    this.loginOTPForm.controls["counter"].setValue(30);
+                    break;
+            }
+        }
+
+        googleModeChange(e): void {
+            if (!e.checked) {
+                return
+            }
+            this.loginOTPForm.controls["otpType"].setValue("TOTP");
+            this.loginOTPForm.controls["counter"].setValue(30);
+            this.loginOTPForm.controls["timeStart"].setValue(0);
+            this.loginOTPForm.controls["length"].setValue(6);
+            this.loginOTPForm.controls["hash"].setValue("SHA-1");
+        }
+
+        isGoogleMode() {
+            return (
+                this.loginOTPForm.controls["otpType"].value == "TOTP" &&
+                this.loginOTPForm.controls["counter"].value == 30 &&
+                this.loginOTPForm.controls["timeStart"].value == 0 &&
+                this.loginOTPForm.controls["length"].value == 6 &&
+                this.loginOTPForm.controls["hash"].value == "SHA-1"
+            );
         }
     }
-
-    googleModeChange(e): void {
-        if (!e.checked) {
-            return
-        }
-        this.loginOTPForm.controls["otpType"].reset({value: "TOTP", disabled: true});
-        this.loginOTPForm.controls["counter"].reset({value: 30, disabled: true});
-        this.loginOTPForm.controls["timeStart"].reset({value: 0, disabled: true});
-        this.loginOTPForm.controls["length"].reset({value: 6, disabled: true});
-        this.loginOTPForm.controls["hash"].reset({value: "SHA-1", disabled: true});
-    }
-}

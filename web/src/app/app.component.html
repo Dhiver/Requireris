@@ -1,6 +1,6 @@
 <md-sidenav-layout layout="row" fullscreen>
     <md-sidenav #menu mode="side" opened>
-        <login-otp (onNewAccount)="addAccount" (closeMenu)="menu.close()"></login-otp>
+        <login-otp (onNewAccount)="addAccount($event)" (closeMenu)="menu.close()"></login-otp>
     </md-sidenav>
     <md-toolbar class="headerBar" color="primary">
         <md-icon *ngIf="!menu.opened" class="menu material-icons" (click)="menu.open($event)">menu</md-icon>

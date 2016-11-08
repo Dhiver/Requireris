@@ -34,8 +34,7 @@ func main() {
 	http.HandleFunc("/secret/remove", PostOnly(user.RemoveSecretHandler))
 	http.HandleFunc("/secret/list", GetOnly(user.ListSecretHandler))
 
-	accounts.ListUsers()
-
+	log.Println("Listening on 8080")
 	err := http.ListenAndServeTLS(":8080", path.Join(KeysFolder, "https.pem"), path.Join(KeysFolder, "https.key"), nil)
 	if err != nil {
 		log.Fatal("ListenAndServe: ", err)

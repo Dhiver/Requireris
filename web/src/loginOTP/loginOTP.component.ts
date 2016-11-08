@@ -33,12 +33,10 @@ export class LoginOTPComponent {
     }
 
     addAccount(value: any, valid: boolean): void {
-        console.log(value);
-        console.log(valid);
         if (!valid) {
             return;
         }
-        console.log(value);
+        console.log("valid", value);
         this.onNewAccount.emit(
             new OTPAccount(
                 value.account,

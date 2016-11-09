@@ -89,7 +89,6 @@ hotp.gen = function(secret, opt) {
 	const hashName = opt.hashName || 'sha1';
 	const fromBase32 = opt.fromBase32 || false;
 
-	assert(secret.length >= 16, "shared secret must be at least 16 bytes");
 	assert(['sha1', 'sha256', 'sha512'].includes(hashName), "wrong hash name");
 	opt.tokenLength = opt.tokenLength < 6 ? 6 : opt.tokenLength;
 	opt.tokenLength = opt.tokenLength > 8 ? 8 : opt.tokenLength;
@@ -101,6 +100,7 @@ hotp.gen = function(secret, opt) {
 		const epurSecret = secret.replace(/\W+/g, '')
 		secret = base32.decode(epurSecret);
 	}
+	assert(secret.length >= 16, "shared secret must be at least 16 bytes");
 	const hs = hmac(hashName, secret, counter);
 	const sbits = dynamicTruncation(hs).toString();
 	return sbits.substr(sbits.length - tokenLength);

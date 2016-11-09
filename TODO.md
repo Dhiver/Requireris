@@ -17,6 +17,7 @@
 	- [x] Generate Key Uri for QRCode
 - [ ] Wery
 	- [ ] Features
+		- [x] HTTPS
 		- [x] QR Code generator
 		- [x] account
 			- [x] multi
@@ -33,6 +34,7 @@
 				- [x] auth by user / login
 		- [x] unlock by pin
 		- [x] localStorage
+		- [x] chiffer password and localStorage
 	- [x] Web Interface / Electron App
 		- [x] Angular2
 		- [x] Electron

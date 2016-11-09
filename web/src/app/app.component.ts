@@ -1,3 +1,7 @@
+/// <reference path="../../typings/globals/crypto-js/index.d.ts"/>
+
+import * as CryptoJS from 'crypto-js';
+
 import { Component, ViewChild, OnInit } from '@angular/core';
 
 import { FormGroup, FormControl, Validators } from '@angular/forms';
@@ -7,6 +11,8 @@ import { Http, Response, Headers, RequestOptions } from '@angular/http';
 import { ITableSelectionChange } from '../ng2-material';
 
 import { OTPAccount, Secret } from "../shared/otp-account";
+
+import { Crypto } from '../shared/crypto';
 
 @Component({
     selector: 'app',
@@ -98,12 +104,12 @@ export class AppComponent implements OnInit  {
         for (let account of this.otps) {
             accounts.push(account.getData());
         }
-        console.log(accounts);
-        localStorage.setItem("accounts", JSON.stringify(accounts));
+        localStorage.setItem("accounts", Crypto.encrypt(JSON.stringify(accounts)));
     }
 
     loadAccountsToLocalStorage(): void {
-        let data: string = localStorage.getItem('accounts');
+        let data: string = Crypto.decrypt(localStorage.getItem('accounts'));
+        console.log(data);
         if (!data || data == "") {
             return;
         }

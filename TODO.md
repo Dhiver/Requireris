@@ -16,31 +16,33 @@
 		- [ ] Bi-Directional Authentication
 	- [x] Generate Key Uri for QRCode
 - [ ] Wery
-	- [x] QR Code generator
-	- [x] no AuthAccount => empty
-	- [x] multi account
-	- [x] remove account
-    - [ ] AuthAccount
-        - [x] crytped DB
-        - [x] auth by user / login
-        - [ ] auth by Google
-	- [ ] compatibilty mode (ex: Google)
-
-
-- [ ] Web Interface / Electron App
-	- [x] Angular2
-	- [x] Electron
-	- [x] REVOIR INTERFACE
-	- [x] show QR Code
-	- [x] HOTP / TOTP
-		- [x] change form login
-		- [x] change table cell
-
-- [ ] Android / iOS App
-	- [x] NativeScript
-	- [x] Angular2
-	- [ ] unlock by PIN code
-	- [ ] use DB in device ???
+	- [ ] Features
+		- [x] QR Code generator
+		- [x] account
+			- [x] multi
+			- [x] remove
+			- [x] TOTP / HOTP
+			- [x] SHA1 / SHA-256 / SHA-512
+			- [x] Validity / Start / Length
+			- [x] Google Mode Compatibility
+		- [x] Authenfication
+			- [x] None
+			- [x] auth by user / login
+				- [x] cryptedDB
+				- [x] import / export from DB
+				- [x] auth by user / login
+		- [ ] unlock by pin
+	- [x] Web Interface / Electron App
+		- [x] Angular2
+		- [x] Electron
+		- [x] Beautiful Interface
+		- [x] Responsive Design
+		- [x] show QR Code
+		- [x] OTP to clipboard
+	- [ ] Android / iOS App
+		- [x] NativeScript
+		- [x] Angular2
+		- [ ] use DB in device ???
 
 ## SuperBonus
 - [ ] webOS App

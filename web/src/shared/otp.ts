@@ -23,7 +23,7 @@ export class OTP {
 
         private hmac(hash: string, secret: Buffer, msg: string): any {
             let shaObj = new jsSHA(hash, "HEX");
-            shaObj.setHMACKey(secret.toString(), "TEXT");
+            shaObj.setHMACKey(secret.toString("hex"), "HEX");
             shaObj.update(msg);
             return new Buffer(shaObj.getHMAC("HEX"), "hex");
         }
@@ -50,7 +50,7 @@ export class OTP {
             const counter: Buffer = Buffer.alloc(8);
             counter.writeUIntBE(movingFactor, 0, 8);
 
-            const decodedSecret: Buffer = (new Base32()).decode(this.secret);
+            const decodedSecret: Buffer = (new Base32()).decode(this.secret.replace(/\W+/g, ''));
             const hs: Buffer = this.hmac(this.hash, decodedSecret, counter.toString('hex'));
             const sbits: string = this.dynamicTruncation(hs).toString();
             return sbits.substr(sbits.length - this.length);

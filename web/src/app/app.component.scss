@@ -24,8 +24,12 @@
                 material-card {
                     user-select: none;
                     .delete, .qr-code {
+                        color: #9E9E9E;
                         position: absolute;
                         top: 25px;
+                        &:hover {
+                            color: #424242;
+                        }
                     }
                     .delete {
                         right: 5px;

@@ -1,4 +1,7 @@
-<md-sidenav-layout layout="row" fullscreen>
+<md-dialog #pinDialog escapable="true">
+    <lock-pin [locked]="isLocked" (unlock)="unlock($event)"></lock-pin>
+</md-dialog>
+<md-sidenav-layout layout="row" fullscreen *ngIf="!isLocked">
     <md-sidenav #menu mode="side" opened>
         <login-otp (onNewAccount)="addAccount($event)" (closeMenu)="menu.close()"></login-otp>
     </md-sidenav>

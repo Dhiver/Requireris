@@ -31,7 +31,8 @@
 				- [x] cryptedDB
 				- [x] import / export from DB
 				- [x] auth by user / login
-		- [ ] unlock by pin
+		- [x] unlock by pin
+		- [x] localStorage
 	- [x] Web Interface / Electron App
 		- [x] Angular2
 		- [x] Electron

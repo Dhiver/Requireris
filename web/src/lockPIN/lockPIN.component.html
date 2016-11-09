@@ -1,0 +1,10 @@
+<md-input *ngIf="passwordHash" class="pinCode" placeholder="PIN Code" type="password" [(ngModel)]="pinCode" (ngModelChange)="pinCodeChange($event)"></md-input>
+
+<form *ngIf="!passwordHash" class="formPIN" [formGroup]="newPINCodeForm" novalidate (ngSubmit)="setPINCode(newPINCodeForm.value, newPINCodeForm.valid)">
+    <md-input placeholder="PIN Code" formControlName="pinCode" type="password"></md-input>
+    <md-input placeholder="Confirmation PIN" formControlName="pinCodeCheck" type="password"></md-input>
+
+    <button md-raised-button class="md-raised md-accent" type="submit" [disabled]="!newPINCodeForm.valid">
+        Save PIN Code
+    </button>
+</form>

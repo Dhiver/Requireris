@@ -49,6 +49,7 @@ function getBufferSubset(buf, offset, length) {
 function dynamicTruncation(hs) {
 	// Get offset value from the hs last byte low-order nibble
 	const offset = hs[hs.length - 1] & 0xf;
+	console.log(offset);
 	// Only get 4-byte from hs at offset
 	const dbc1 = getBufferSubset(hs, offset, 4);
 	let dbc2 = new Buffer(dbc1);
@@ -102,6 +103,7 @@ hotp.gen = function(secret, opt) {
 		secret = base32.decode(secret);
 	}
 	const hs = hmac(hashName, secret, counter);
+	console.log("hs", hs);
 	const sbits = dynamicTruncation(hs).toString();
 	return sbits.substr(sbits.length - tokenLength);
 };
@@ -233,3 +235,4 @@ totp.verify = function(secret, token, opt) {
 
 module.exports.hotp = hotp;
 module.exports.totp = totp;
+console.log(hotp.gen('GEZDGNBVGY3TQOJQGEZDGNBVGY3TQOJQ', {fromBase32:true}));

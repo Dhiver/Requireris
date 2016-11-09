@@ -100,7 +100,7 @@ hotp.gen = function(secret, opt) {
 	// Decode base32 secret if specified
 	if (fromBase32) {
 		const epurSecret = secret.replace(/\W+/g, '')
-		secret = base32.decode(secret);
+		secret = base32.decode(epurSecret);
 	}
 	const hs = hmac(hashName, secret, counter);
 	console.log("hs", hs);

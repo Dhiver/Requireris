@@ -7,6 +7,7 @@ import { AppComponent } from './app.component';
 
 import { LoginModule } from '../login';
 import { LoginOTPModule } from '../loginOTP';
+import { LockPINModule } from '../lockPIN';
 
 import { MdIconModule, MdIconRegistry } from '@angular2-material/icon';
 import { MdButtonModule } from '@angular2-material/button';
@@ -49,6 +50,7 @@ import { JoinPipe } from './join.pipe';
 
         LoginModule,
         LoginOTPModule,
+        LockPINModule
     ],
     providers: [
         MdIconRegistry

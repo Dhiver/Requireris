@@ -1,0 +1,22 @@
+// LoginOTP
+
+$width: 80%;
+
+:host {
+    margin: 40px;
+    .pinCode {
+        font-size: 3rem;
+    }
+    .formPIN {
+        width: 400px;
+        md-input {
+            display: block;
+            margin: 40px;
+            font-size: 2rem;
+        }
+        button {
+            display: block;
+            margin: auto;
+        }
+    }
+}

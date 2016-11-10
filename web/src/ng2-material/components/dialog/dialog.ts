@@ -115,8 +115,10 @@ export class MdDialog implements AfterContentInit, OnDestroy {
       });
   }
 
+  @Input() escapable: boolean = false;
+
   private onDocumentKeypress(event: KeyboardEvent) {
-    if (event.keyCode == KeyCodes.ESCAPE) {
+    if (event.keyCode == KeyCodes.ESCAPE && !this.escapable) {
       this.close();
     }
   }

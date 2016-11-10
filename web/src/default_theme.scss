@@ -1,0 +1,11 @@
+@import '@angular2-material/core/theming/all-theme';
+
+
+// Include non-theme styles for core.
+@include md-core();
+
+// Define a theme.
+@import "scss/variables";
+
+// Include all theme styles for the components.
+@include angular-material-theme($theme);

@@ -1,7 +1,12 @@
-$background: #757575;
-$dark_background: #212121;
-$light_background: #FAFAFA;
-$grey_background: #E0E0E0;
-$color: #FFFFFF;
-$dark_color: #000000;
-$accent: #0091EA;
+@import '../@angular2-material/core/theming/all-theme';
+
+$primary_theme: md-palette($md-blue, 700, 500, 800);
+$accent_theme: md-palette($md-light-blue, A200, A100, A400);
+
+$theme: md-light-theme($primary_theme, $accent_theme);
+
+$primary: map-get($theme, primary);
+$accent: map-get($theme, accent);
+$warn: map-get($theme, warn);
+$background: map-get($theme, background);
+$foreground: map-get($theme, foreground);

@@ -13,7 +13,7 @@ import { Crypto } from '../shared/crypto';
 @Component({
     selector: 'app',
     templateUrl: 'app.component.html',
-    styleUrls: ['app.component.css'],
+    styleUrls: ['app.component.scss'],
     host: {
         "(window: blur)": "onLeaveWindow($event)",
     }

@@ -7,7 +7,7 @@ import { Crypto } from '../shared/crypto';
 @Component({
     selector: 'lock-pin',
     templateUrl: 'lockPIN.component.html',
-    styleUrls: ['lockPIN.component.css']
+    styleUrls: ['lockPIN.component.scss']
 })
 export class LockPINComponent {
     newPINCodeForm = new FormGroup({

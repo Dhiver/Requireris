@@ -1,15 +1,13 @@
-// // App
 @import '../scss/variables';
 
 :host {
+    color: md-color($background, card);
     > md-sidenav-layout {
-        md-toolbar.md-primary {
-            background: $accent;
-        }
         md-sidenav {
             width: 350px;
         }
         .headerBar {
+            color: md-color($background, card);
             display: flex;
             .menu {
                 cursor: pointer;
@@ -24,11 +22,11 @@
                 material-card {
                     user-select: none;
                     .delete, .qr-code {
-                        color: #9E9E9E;
+                        color: md-color($foreground, hint-text);
                         position: absolute;
                         top: 25px;
                         &:hover {
-                            color: #424242;
+                            color: md-color($foreground, icon);
                         }
                     }
                     .delete {
@@ -55,7 +53,6 @@
                         padding: 10px;
                         .otp {
                             font-size: 30px;
-                            color: $color;
                         }
                     }
                 }

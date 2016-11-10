@@ -18,10 +18,10 @@
             "prefix": "app",
             "mobile": false,
             "styles": [
-                "styles.css",
+                "styles.scss",
                 "ng2-material/all.css",
                 "ng2-material/font/font.css",
-                "theme.css"
+                "default_theme.scss"
             ],
             "scripts": [],
             "environments": {

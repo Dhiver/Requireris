@@ -1,7 +1,6 @@
-// MaterialCardMain
-
 @import '../../scss/variables';
 
 :host {
-    background: $accent;
+    background: md-color($primary);
+    color: md-color($background, card);
 }

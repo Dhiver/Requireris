@@ -5,8 +5,8 @@
     </button>
 </md-toolbar>
 <form [formGroup]="loginOTPForm" novalidate (ngSubmit)="addAccount(loginOTPForm.value, loginOTPForm.valid)">
-    <md-input placeholder="Account" formControlName="account"></md-input>
-    <md-input placeholder="Secret Key (base32)" formControlName="secretKey" type="password"></md-input>
+    <md-input placeholder="Account" class="md-accent" formControlName="account"></md-input>
+    <md-input placeholder="Secret Key (base32)" class="md-accent" formControlName="secretKey" type="password"></md-input>
     <md-radio-group formControlName="otpType" class="otpGroup double" (change)="changeOTPtype($event)">
         <md-radio-button value="HOTP">HOTP</md-radio-button>
         <md-radio-button value="TOTP">TOTP</md-radio-button>
@@ -17,14 +17,14 @@
         <md-radio-button value="SHA-512">SHA-512</md-radio-button>
     </md-radio-group>
     <div class="triple">
-        <md-input *ngIf="otpType == 'HOTP'" placeholder="Counter" type="number" formControlName="counter" min="0" max="4294967296"></md-input>
-        <md-input *ngIf="otpType == 'TOTP'" placeholder="Validity Time" type="number" formControlName="counter" min="10" max="4294967296">
+        <md-input *ngIf="otpType == 'HOTP'" placeholder="Counter" class="md-accent" type="number" formControlName="counter" min="0" max="4294967296"></md-input>
+        <md-input *ngIf="otpType == 'TOTP'" placeholder="Validity Time" class="md-accent" type="number" formControlName="counter" min="10" max="4294967296">
             <span md-suffix>sec</span>
         </md-input>
-        <md-input *ngIf="otpType == 'TOTP'" placeholder="Time Start" type="number" formControlName="timeStart" min="0" max="4294967296">
+        <md-input *ngIf="otpType == 'TOTP'" placeholder="Time Start" class="md-accent" type="number" formControlName="timeStart" min="0" max="4294967296">
             <span md-suffix>sec</span>
         </md-input>
-        <md-input placeholder="Length" class="nums" type="number" formControlName="length" min="6" max="8">
+        <md-input placeholder="Length" class="md-accent" class="nums" type="number" formControlName="length" min="6" max="8">
             <span md-suffix>digits</span>
         </md-input>
     </div>

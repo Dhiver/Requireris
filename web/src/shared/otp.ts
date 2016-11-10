@@ -1,4 +1,4 @@
-/// <reference path="../../typings/jssha.d.ts"/>
+/// <reference path="./jssha.d.ts"/>
 
 import { Buffer } from 'buffer';
 import { Base32 } from './base32';

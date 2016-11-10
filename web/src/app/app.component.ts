@@ -1,7 +1,3 @@
-/// <reference path="../../typings/globals/crypto-js/index.d.ts"/>
-
-import * as CryptoJS from 'crypto-js';
-
 import { Component, ViewChild, OnInit } from '@angular/core';
 
 import { FormGroup, FormControl, Validators } from '@angular/forms';
@@ -17,7 +13,7 @@ import { Crypto } from '../shared/crypto';
 @Component({
     selector: 'app',
     templateUrl: 'app.component.html',
-    styleUrls: ['app.component.css'],
+    styleUrls: ['app.component.scss'],
     host: {
         "(window: blur)": "onLeaveWindow($event)",
     }

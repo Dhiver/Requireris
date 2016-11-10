@@ -1,29 +1,24 @@
-// MaterialProgressBarCircle
-
 @import '../../scss/variables';
 @import '../../scss/mixins';
 
-$fillColor: #8a8a8a;
-$backColor: #FAFAFA;
-
 :host {
     .c100 {
-        $background-color: $backColor;
+        $background-color: md-color($background, app-bar);;
         .inside {
             cursor: pointer;
             z-index: 10;
         }
         .slice {
             .bar {
-                border-color: $accent;
+                border-color: md-color($primary);
             }
             .fill {
-                border-color: $accent;
+                border-color: md-color($primary);
             }
         }
         &:hover {
             .inside {
-                color: $accent;
+                color: md-color($primary);
             }
             .slice {
                 .bar {

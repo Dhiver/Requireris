@@ -9,7 +9,7 @@ import { OTPAccount } from "../shared/otp-account";
 @Component({
     selector: 'login-otp',
     templateUrl: 'loginOTP.component.html',
-    styleUrls: ['loginOTP.component.css']
+    styleUrls: ['loginOTP.component.scss']
 })
 export class LoginOTPComponent {
     loginOTPForm = new FormGroup({

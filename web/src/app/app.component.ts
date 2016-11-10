@@ -1,7 +1,3 @@
-/// <reference path="../../typings/globals/crypto-js/index.d.ts"/>
-
-import * as CryptoJS from 'crypto-js';
-
 import { Component, ViewChild, OnInit } from '@angular/core';
 
 import { FormGroup, FormControl, Validators } from '@angular/forms';

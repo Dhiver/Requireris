@@ -1,4 +1,4 @@
-/// <reference path="../../typings/globals/crypto-js/index.d.ts"/>
+/// <reference path="./crypto-js.d.ts"/>
 
 import * as CryptoJS from 'crypto-js';
 

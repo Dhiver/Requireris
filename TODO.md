@@ -35,6 +35,8 @@
 		- [x] unlock by pin
 		- [x] localStorage
 		- [x] chiffer password and localStorage
+		- [x] login add ip from database (or direct server)
+		- [ ] fix CORS
 	- [x] Web Interface / Electron App
 		- [x] Angular2
 		- [x] Electron

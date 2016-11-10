@@ -1,12 +1,12 @@
 <button md-button *ngIf="!isLogin" (click)="login.show()">Login</button>
 <button md-button *ngIf="isLogin" (click)="logout()">Logout</button>
 <md-dialog #login>
-    <!-- <div class="g-signin2" data-onsuccess="onSignIn"></div> -->
     <form [formGroup]="loginForm" novalidate (ngSubmit)="connect(loginForm.value, loginForm.valid)">
-        <md-button-toggle-group formControlName="typeConnect">
+        <md-button-toggle-group formControlName="typeConnect" class="typeConnect">
             <md-button-toggle value="sign_up">Sign Up</md-button-toggle>
             <md-button-toggle value="sign_in">Sign In</md-button-toggle>
         </md-button-toggle-group>
+        <md-input placeholder="Server Address" class="field" formControlName="serverAddress"></md-input>
         <md-input placeholder="Account" class="field" formControlName="username"></md-input>
         <md-input placeholder="Password" class="field" formControlName="password" type="password"></md-input>
         <button md-raised-button class="md-raised md-accent submit" type="submit" [disabled]="!loginForm.valid">

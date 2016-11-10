@@ -9,7 +9,7 @@
         <md-icon *ngIf="!menu.opened" class="menu material-icons" (click)="menu.open($event)">menu</md-icon>
         <span>One Time Password</span>
         <span flex></span>
-        <login (onLogin)="onLogin()"></login>
+        <login (onLogin)="onLogin()" (onServerAddress)="serverAddress = $event"></login>
     </md-toolbar>
     <md-content class="listOTP md-padding" layout="row" layout-wrap layout-align="center start">
         <div *ngFor="let otp of otps; let key = index" class="otpAccount">

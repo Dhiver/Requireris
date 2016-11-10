@@ -26,6 +26,7 @@ export class AppComponent implements OnInit  {
     otps: Array<OTPAccount> = [];
     isLogin: boolean = false;
     isLocked: boolean = true;
+    serverAddress: string = "";
 
     @ViewChild('pinDialog') pinDialog;
 
@@ -73,7 +74,7 @@ export class AppComponent implements OnInit  {
     }
 
     getAccoutsFromServer() {
-        this.http.get('/secret/list').map((res: Response) => res.json())
+        this.http.get(this.serverAddress + '/secret/list').map((res: Response) => res.json())
         .subscribe(
             data => {
                 let secrets : Secret[] = data;
@@ -87,9 +88,14 @@ export class AppComponent implements OnInit  {
 
     addAccountToServer(secret: Secret) {
         let body = JSON.stringify(secret);
-        let headers = new Headers({ 'Content-Type': 'application/json' });
+        let headers = new Headers({
+            "Content-Type": "application/json",
+            "Access-Control-Allow-Origin" : "*",
+            "Access-Control-Allow-Methods" : "GET,POST,PUT,DELETE,OPTIONS",
+            "Access-Control-Allow-Headers": "Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With"
+        });
         let options = new RequestOptions({ headers: headers });
-        this.http.post('/secret/add', body, options)
+        this.http.post(this.serverAddress + '/secret/add', body, options)
         .map((res:Response) => res.json())
         .subscribe(
             data => {
@@ -109,7 +115,6 @@ export class AppComponent implements OnInit  {
 
     loadAccountsToLocalStorage(): void {
         let data: string = Crypto.decrypt(localStorage.getItem('accounts'));
-        console.log(data);
         if (!data || data == "") {
             return;
         }

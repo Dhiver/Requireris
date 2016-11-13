@@ -69,6 +69,7 @@ export class LoginOTPComponent {
                 return
             }
             this.loginOTPForm.controls["otpType"].setValue("TOTP");
+            this.otpType = "TOTP";
             this.loginOTPForm.controls["counter"].setValue(30);
             this.loginOTPForm.controls["timeStart"].setValue(0);
             this.loginOTPForm.controls["length"].setValue(6);

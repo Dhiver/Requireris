@@ -6,7 +6,7 @@
 </md-toolbar>
 <form [formGroup]="loginOTPForm" novalidate (ngSubmit)="addAccount(loginOTPForm.value, loginOTPForm.valid)">
     <md-input placeholder="Account" class="md-accent" formControlName="account"></md-input>
-    <md-input placeholder="Secret Key (base32)" class="md-accent" formControlName="secretKey" type="password"></md-input>
+    <md-input placeholder="Secret Key (base32)" class="md-accent" formControlName="secretKey" minlength="16" type="password"></md-input>
     <md-radio-group formControlName="otpType" class="otpGroup double" (change)="changeOTPtype($event)">
         <md-radio-button value="HOTP">HOTP</md-radio-button>
         <md-radio-button value="TOTP">TOTP</md-radio-button>

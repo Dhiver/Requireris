@@ -6,30 +6,18 @@
 
 <ion-content padding>
     <ion-list>
-        <!-- <ion-item-sliding *ngFor="let otp of otps; let key = index">
+        <ion-item-sliding *ngFor="let otp of otps; let key = index" (ionDrag)="ondrag($event, key)">
             <ion-item>
-                <ion-avatar item-left>
+                <ion-avatar item-left class="counter" (click)="otp.updateCounter()">
                     {{otp.counter}}
                 </ion-avatar>
-                <h2>{{otp.OTPtoken}}</h2>
+                <h2 class="token">{{otp.OTPtoken}}</h2>
+                <p>{{otp.account}}</p>
             </ion-item>
-            <ion-item-options side="right">
-                <button ion-button color="danger" (click)="removeAccount(key)">
-                    <ion-icon name="trah"></ion-icon>
-                    Remove
-                </button>
-            </ion-item-options>
-        </ion-item-sliding> -->
-        <ion-item-sliding>
-            <ion-item>
-                <ion-avatar item-left>
-                    50
-                </ion-avatar>
-                <h2>OTPtoken</h2>
-            </ion-item>
-            <ion-item-options side="right">
-                <button ion-button color="danger">
-                    <ion-icon name="trah"></ion-icon>
+            <ion-item-options side="right" class="delete">
+                <button ion-button color="danger" class="delete" (click)="removeAccount(key)">
+                    <ion-icon name="trash"></ion-icon>
+                    delete
                 </button>
             </ion-item-options>
         </ion-item-sliding>

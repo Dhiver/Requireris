@@ -17,13 +17,12 @@ export class AddAccountPage extends LoginOTP {
     }
 
     ionViewDidLoad() {
-        
+
     }
 
     validityChange(event: any): void {
         this.loginOTPForm.controls["timeStart"].setValue(event.value.lower);
         this.loginOTPForm.controls["counter"].setValue(event.value.upper);
-        console.log(this.loginOTPForm);
     }
 
     addAccount(value: any, valid: boolean): void {

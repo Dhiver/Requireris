@@ -6,6 +6,9 @@
 ## Bonus
 
 - [ ] Dhiver
+	- [x] myotp module
+		- [x] HOTP - send computer counter delta
+		- [x] TOTP - send computer counter delta
 	- [ ] Server API
 		- [ ] HTTPS
 		- [ ] Encrypted DB

@@ -30,7 +30,7 @@ export class OTPAccount {
         timeStart?: number) {
             this.timeStart = timeStart || 0;
             this.otp = new OTP(secret, length, hash);
-            this.otp.genCommonURI("DHIWERY Inc.", "work@dhiwery.io");
+            this.otp.genCommonURI("DHIWERY Inc.", this.account);
             this.counter = this.movingFactor;
             switch(this.otpType) {
                 case "HOTP":
@@ -59,6 +59,7 @@ export class OTPAccount {
                     case "TOTP":
                         this.OTPKeyURI = this.otp.genTOTPKeyURI(this.movingFactor);
                         this.OTPtoken = this.otp.totp(this.movingFactor, this.timeStart);
+                        console.log(this.OTPKeyURI);
                         break;
                 }
             } catch (e) {

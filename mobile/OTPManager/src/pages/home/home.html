@@ -1,14 +1,37 @@
 <ion-header>
-  <ion-navbar>
-    <ion-title>
-      Ionic Blank
-    </ion-title>
-  </ion-navbar>
+    <ion-toolbar color="primary">
+        <ion-title>OTP Manager</ion-title>
+    </ion-toolbar>
 </ion-header>
 
 <ion-content padding>
-  The world is your oyster.
-  <p>
-    If you get lost, the <a href="http://ionicframework.com/docs/v2">docs</a> will be your guide.
-  </p>
+    <ion-list>
+        <!-- <ion-item-sliding *ngFor="let otp of otps; let key = index">
+            <ion-item>
+                <ion-avatar item-left>
+                    {{otp.counter}}
+                </ion-avatar>
+                <h2>{{otp.OTPtoken}}</h2>
+            </ion-item>
+            <ion-item-options side="right">
+                <button ion-button color="danger" (click)="removeAccount(key)">
+                    <ion-icon name="trah"></ion-icon>
+                    Remove
+                </button>
+            </ion-item-options>
+        </ion-item-sliding> -->
+        <ion-item-sliding>
+            <ion-item>
+                <ion-avatar item-left>
+                    50
+                </ion-avatar>
+                <h2>OTPtoken</h2>
+            </ion-item>
+            <ion-item-options side="right">
+                <button ion-button color="danger">
+                    <ion-icon name="trah"></ion-icon>
+                </button>
+            </ion-item-options>
+        </ion-item-sliding>
+    </ion-list>
 </ion-content>

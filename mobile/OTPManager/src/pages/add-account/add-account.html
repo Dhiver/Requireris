@@ -4,74 +4,89 @@
     </ion-toolbar>
 </ion-header>
 <ion-content scroll="false" padding>
-    <ion-list class="divid">
-        <ion-item>
-            <ion-label floating>Account</ion-label>
-            <ion-input type="text" value=""></ion-input>
-        </ion-item>
-        <ion-item>
-            <ion-label floating>Password</ion-label>
-            <ion-input type="password" value=""></ion-input>
-        </ion-item>
-    </ion-list>
+    <form [formGroup]="loginOTPForm" novalidate (ngSubmit)="addAccount(loginOTPForm.value, loginOTPForm.valid)">
+        <ion-list class="divid">
+            <ion-item>
+                <ion-label floating>Account</ion-label>
+                <ion-input type="text" formControlName="account"></ion-input>
+            </ion-item>
+            <ion-item>
+                <ion-label floating>Secret Key (base32)</ion-label>
+                <ion-input type="password" minlength="16" formControlName="secretKey"></ion-input>
+            </ion-item>
+        </ion-list>
 
-    <ion-list radio-group [(ngModel)]="otpType" class="divid">
-        <ion-list-header>OTP Type</ion-list-header>
-        <ion-item>
-            <ion-label>HOTP</ion-label>
-            <ion-radio value="HOTP"></ion-radio>
-        </ion-item>
-        <ion-item>
-            <ion-label>TOTP</ion-label>
-            <ion-radio value="TOTP"></ion-radio>
-        </ion-item>
-    </ion-list>
+        <ion-list radio-group class="divid" formControlName="otpType" (change)="changeOTPtype($event)">
+            <ion-list-header>OTP Type</ion-list-header>
+            <ion-item>
+                <ion-label>HOTP</ion-label>
+                <ion-radio value="HOTP"></ion-radio>
+            </ion-item>
+            <ion-item>
+                <ion-label>TOTP</ion-label>
+                <ion-radio value="TOTP"></ion-radio>Validators.compose([Validators.minLength(16),
+            </ion-item>
+        </ion-list>
 
-    <ion-list radio-group [(ngModel)]="hashType" class="divid">
-        <ion-list-header>Hash Type</ion-list-header>
-        <ion-item>
-            <ion-label>SHA-1</ion-label>
-            <ion-radio value="SHA-1"></ion-radio>
-        </ion-item>
-        <ion-item>
-            <ion-label>SHA-256</ion-label>
-            <ion-radio value="SHA-256"></ion-radio>
-        </ion-item>
-        <ion-item>
-            <ion-label>SHA-512</ion-label>
-            <ion-radio value="SHA-512"></ion-radio>
-        </ion-item>
-    </ion-list>
+        <ion-list radio-group formControlName="hash" class="divid">
+            <ion-list-header>Hash Type</ion-list-header>
+            <ion-item>
+                <ion-label>SHA-1</ion-label>
+                <ion-radio value="SHA-1"></ion-radio>
+            </ion-item>
+            <ion-item>
+                <ion-label>SHA-256</ion-label>
+                <ion-radio value="SHA-256"></ion-radio>
+            </ion-item>
+            <ion-item>
+                <ion-label>SHA-512</ion-label>
+                <ion-radio value="SHA-512"></ion-radio>
+            </ion-item>
+        </ion-list>
 
-    <ion-list class="divid">
-        <ion-list-header>
-            Validity Range
-            <ion-badge item-right>{{validity.lower}}</ion-badge>
-            <ion-badge item-right>{{validity.upper}}</ion-badge>
-        </ion-list-header>
-        <ion-item>
-            <ion-range dualKnobs="true" min="0" max="60" [(ngModel)]="validity">
-                <ion-label range-left>0</ion-label>
-                <ion-label range-right>60</ion-label>
-            </ion-range>
-        </ion-item>
-    </ion-list>
+        <ion-list class="divid" *ngIf="otpType == 'TOTP'">
+            <ion-list-header>
+                Validity Range
+                <ion-badge item-right>{{loginOTPForm.value.timeStart}}</ion-badge>
+                <ion-badge item-right>{{loginOTPForm.value.counter}}</ion-badge>
+            </ion-list-header>
+            <ion-item>
+                <ion-range dualKnobs="true" min="0" max="60" (ionChange)="validityChange($event)">
+                    <ion-label range-left>0</ion-label>
+                    <ion-label range-right>60</ion-label>
+                </ion-range>
+            </ion-item>
+        </ion-list>
 
-    <ion-list class="divid">
-        <ion-list-header>
-            Length
-            <ion-badge item-right>{{length}}</ion-badge>
-        </ion-list-header>
-        <ion-item>
-            <ion-range min="6" max="8" [(ngModel)]="length">
-                <ion-label range-left>6</ion-label>
-                <ion-label range-right>8</ion-label>
-            </ion-range>
+        <ion-list class="divid" *ngIf="otpType == 'HOTP'">
+            <ion-list-header>
+                Counter
+                <ion-badge item-right>{{loginOTPForm.value.counter}}</ion-badge>
+            </ion-list-header>
+            <ion-item>
+                <ion-range min="0" max="1000" formControlName="counter">
+                    <ion-label range-left>0</ion-label>
+                    <ion-label range-right>1000</ion-label>
+                </ion-range>
+            </ion-item>
+        </ion-list>
+
+        <ion-list class="divid">
+            <ion-list-header>
+                Length
+                <ion-badge item-right>{{length}}</ion-badge>
+            </ion-list-header>
+            <ion-item>
+                <ion-range formControlName="length" min="6" max="8">
+                    <ion-label range-left>6</ion-label>
+                    <ion-label range-right>8</ion-label>
+                </ion-range>
+            </ion-item>
+        </ion-list>
+        <ion-item no-lines class="divid">
+            <ion-label>Google Compatibility</ion-label>
+            <ion-checkbox [checked]="isGoogleMode()" (change)="googleModeChange($event)"></ion-checkbox>
         </ion-item>
-    </ion-list>
-    <ion-item no-lines class="divid">
-        <ion-label>Google Compatibility</ion-label>
-        <ion-checkbox [(ngModel)]="google"></ion-checkbox>
-    </ion-item>
-    <button ion-button full>Add Account</button>
+        <button ion-button full type="submit" [disabled]="!loginOTPForm.valid">Add Account</button>
+    </form>
 </ion-content>

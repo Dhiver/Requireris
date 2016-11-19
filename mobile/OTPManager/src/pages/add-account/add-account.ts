@@ -1,29 +1,45 @@
 import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
 
-/*
-  Generated class for the AddAccount page.
+import { OTPAccount } from '../../shared/otp-account';
+import { LoginOTP } from '../../shared/loginOTP';
 
-  See http://ionicframework.com/docs/v2/components/#navigation for more info on
-  Ionic pages and navigation.
-*/
+import { HomePage } from '../home/home';
+
 @Component({
-  selector: 'page-add-account',
-  templateUrl: 'add-account.html'
+    selector: 'page-add-account',
+    templateUrl: 'add-account.html'
 })
-export class AddAccountPage {
+export class AddAccountPage extends LoginOTP {
 
-    validity = {lower: 0, upper: 30};
-    otpType = "HOTP";
-    hashType = "SHA-1";
-    length = 6;
-    google = false;
+    constructor(public navCtrl: NavController) {
+        super();
+    }
 
+    ionViewDidLoad() {
+        
+    }
 
-  constructor(public navCtrl: NavController) {}
+    validityChange(event: any): void {
+        this.loginOTPForm.controls["timeStart"].setValue(event.value.lower);
+        this.loginOTPForm.controls["counter"].setValue(event.value.upper);
+        console.log(this.loginOTPForm);
+    }
 
-  ionViewDidLoad() {
-    console.log('Hello AddAccountPage Page');
-  }
-
-}
+    addAccount(value: any, valid: boolean): void {
+        if (!valid) {
+            return;
+        }
+        this.navCtrl.parent.select(1);
+        this.navCtrl.push(HomePage, {
+            account: new OTPAccount(
+                value.account,
+                value.secretKey,
+                value.otpType,
+                value.counter,
+                value.length,
+                value.hash,
+                value.timeStart)
+            });
+        }
+    }

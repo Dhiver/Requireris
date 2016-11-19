@@ -1,15 +1,20 @@
 import { Component } from '@angular/core';
 
-import { NavController } from 'ionic-angular';
+import {NavController, NavParams} from 'ionic-angular';
+
+import { Http } from '@angular/http';
+
+import { OTPManager } from '../../shared/OTPManager';
 
 @Component({
   selector: 'page-home',
   templateUrl: 'home.html'
 })
-export class HomePage {
+export class HomePage extends OTPManager {
 
-  constructor(public navCtrl: NavController) {
-    
+  constructor(protected http: Http, private navController: NavController, private navParams: NavParams) {
+      super(http);
+      console.log(navParams.get('account'));
   }
 
 }

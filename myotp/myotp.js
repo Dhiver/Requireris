@@ -47,7 +47,7 @@ function getBufferSubset(buf, offset, length) {
  * @return {Integer} raw hotp value
  */
 function dynamicTruncation(hs) {
-	// Get offset value from the hs last byte low-order nibble
+	// Get offset value from the last byte low-order nibble hs.
 	const offset = hs[hs.length - 1] & 0xf;
 	// Only get 4-byte from hs at offset
 	const dbc1 = getBufferSubset(hs, offset, 4);

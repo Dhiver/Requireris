@@ -47,7 +47,7 @@ function getBufferSubset(buf, offset, length) {
  * @return {Integer} raw hotp value
  */
 function dynamicTruncation(hs) {
-	// Get offset value from the hs last byte low-order nibble
+	// Get offset value from the last byte low-order nibble hs.
 	const offset = hs[hs.length - 1] & 0xf;
 	// Only get 4-byte from hs at offset
 	const dbc1 = getBufferSubset(hs, offset, 4);
@@ -70,7 +70,7 @@ let hotp = {};
  * 	secret - This should be unique and secret for every user
  * 	as this is the seed that is used to calculate the HMAC.
  *
- * 	counterOffset - This is the offset of the HOTP counter.
+ * 	counter - This is the counter value.
  * 	Default is 0.
  *
  * 	tokenLength - How many digits to print out (min 6, max 8)
@@ -80,28 +80,32 @@ let hotp = {};
  * 	('sha1', 'sha256', 'sha521')
  * 	Default is 'sha1'.
  *
+ * 	fromBase32 - Decode the given secret from base32.
+ * 	Default is false.
+ *
  */
 hotp.gen = function(secret, opt) {
 	secret = secret || '';
 	opt = opt || {};
-	const counterOffset = opt.counterOffset || 0;
+	const counter = opt.counter || 0;
 	const tokenLength = opt.tokenLength || 6;
 	const hashName = opt.hashName || 'sha1';
 	const fromBase32 = opt.fromBase32 || false;
 
-	assert(secret.length >= 16, "shared secret must be at least 16 bytes");
 	assert(['sha1', 'sha256', 'sha512'].includes(hashName), "wrong hash name");
 	opt.tokenLength = opt.tokenLength < 6 ? 6 : opt.tokenLength;
 	opt.tokenLength = opt.tokenLength > 8 ? 8 : opt.tokenLength;
 
-	const counter = Buffer.alloc(8);
-	counter.writeUIntBE(counterOffset, 0, 8);
 	// Decode base32 secret if specified
 	if (fromBase32) {
 		const epurSecret = secret.replace(/\W+/g, '')
 		secret = base32.decode(epurSecret);
 	}
-	const hs = hmac(hashName, secret, counter);
+	assert(secret.length >= 16, "shared secret must be at least 16 bytes");
+
+	const counterBuffer = Buffer.alloc(8);
+	counterBuffer.writeUIntBE(opt.counter, 0, 8);
+	const hs = hmac(hashName, secret, counterBuffer);
 	const sbits = dynamicTruncation(hs).toString();
 	return sbits.substr(sbits.length - tokenLength);
 };
@@ -125,27 +129,26 @@ hotp.gen = function(secret, opt) {
  * 	with the given token.
  * 	Default is 15.
  *
- * 	counterOffset - Counter value. This should be stored by the
+ * 	counter - Counter value. This should be stored by the
  * 	application, must be user specific, and be incremented for
  * 	each request.
  * 	Default is 0.
  */
-hotp.verify = function(secret, token, opt) {
+hotp.verify = function(secret, token, lookAheadWindow, opt) {
 	secret = secret || '';
 	token = token || '';
+	lookAheadWindow = lookAheadWindow || 10;
 	opt = opt || {};
-	let lookAheadWindow = opt.lookAheadWindow || 15;
-	const counterOffset = opt.counterOffset || 0;
 
-	let counter = counterOffset;
-	if (counter > lookAheadWindow)
-		lookAheadWindow += counter;
-	while (counter <= lookAheadWindow) {
-		console.log("counter:", counter);
-		opt.counterOffset = counter;
+	const origCounter = opt.counter;
+	let i = origCounter - lookAheadWindow;
+	if (i < 0)
+		i = 0;
+	while (i <= origCounter + lookAheadWindow) {
+		opt.counter = i;
 		if (timingSafeEqualHMAC(this.gen(secret, opt), token, 'sha256'))
-			return {delta: counter - counterOffset}
-		++counter;
+			return {"delta": i - origCounter}
+		++i;
 	}
 	return null;
 };
@@ -185,8 +188,8 @@ totp.gen = function(secret, opt) {
 	let localSecondsFromEpoch = Date.now() / 1000;
 	if (opt.secondsFromEpoch)
 		localSecondsFromEpoch = opt.secondsFromEpoch;
-	// Compute actual counter offset
-	opt.counterOffset = Math.floor((localSecondsFromEpoch - opt.timeOffset) / opt.timeStep);
+	// Compute actual counter value
+	opt.counter = Math.floor((localSecondsFromEpoch - opt.timeOffset) / opt.timeStep);
 	return hotp.gen(secret, opt);
 };
 
@@ -215,20 +218,20 @@ totp.gen = function(secret, opt) {
  * 	timeStep - The time step of the counter.
  * 	Default is 30.
  */
-totp.verify = function(secret, token, opt) {
+totp.verify = function(secret, token, lookAheadWindow, opt) {
 	secret = secret || '';
 	token = token || '';
 	opt = opt || {};
 	opt.timeStep = opt.timeStep || 30;
 	opt.timeOffset = opt.timeOffset || 0;
 	opt.hashName = opt.hashName || 'sha256';
+	lookAheadWindow = lookAheadWindow || 10;
 
 	let localSecondsFromEpoch = Date.now() / 1000;
 	if (opt.secondsFromEpoch)
 		localSecondsFromEpoch = opt.secondsFromEpoch;
-	// TO FIX
-	opt.counterOffset = Math.floor((localSecondsFromEpoch - opt.timeOffset) / opt.timeStep);
-	return hotp.verify(secret, token, opt);
+	opt.counter = Math.floor((localSecondsFromEpoch - opt.timeOffset) / opt.timeStep);
+	return hotp.verify(secret, token, lookAheadWindow, opt);
 }
 
 module.exports.hotp = hotp;

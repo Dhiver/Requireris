@@ -6,7 +6,12 @@
 ## Bonus
 
 - [ ] Dhiver
-	- [ ] Develop a PAM module
+	- [x] myotp module
+		- [x] HOTP - send computer counter delta
+		- [x] TOTP - send computer counter delta
+	- [ ] Server API
+		- [ ] HTTPS
+		- [ ] Encrypted DB
 		- [ ] Validation
 		- [ ] Throttling
 		- [ ] Resynchronization
@@ -14,7 +19,9 @@
 			- [ ] Deterministic
 			- [ ] Random
 		- [ ] Bi-Directional Authentication
-	- [x] Generate Key Uri for QRCode
+		- [x] Generate Key Uri for QRCode
+	- [ ] Client
+		- [ ] Generate image
 - [ ] Wery
 	- [ ] Features
 		- [x] HTTPS

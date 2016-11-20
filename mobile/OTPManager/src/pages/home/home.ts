@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
 
-import {NavController, NavParams} from 'ionic-angular';
-
 import { Http } from '@angular/http';
 
 import { OTPManager } from '../../shared/OTPManager';
+
+import { Shared } from '../shared.service';
 
 @Component({
     selector: 'page-home',
@@ -12,14 +12,13 @@ import { OTPManager } from '../../shared/OTPManager';
 })
 export class HomePage extends OTPManager {
 
-    constructor(protected http: Http, private navController: NavController, private navParams: NavParams) {
+    constructor(protected http: Http, private shared: Shared) {
         super(http);
-        let account = navParams.get('account');
-        console.log(account);
-        // TODO use shared service
-        if (account) {
-            this.addAccount(account);
-        }
+        this.shared.newAccount.subscribe(
+            account => {
+                this.addAccount(account)
+            }
+        );
     }
 
     ondrag(item, key: number): void {

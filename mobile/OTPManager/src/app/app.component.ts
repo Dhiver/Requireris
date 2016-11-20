@@ -4,8 +4,11 @@ import { StatusBar, Splashscreen } from 'ionic-native';
 
 import { TabsPage } from '../pages/tabs/tabs';
 
+import { Shared } from '../pages/shared.service';
+
 @Component({
-    template: `<ion-nav [root]="rootPage"></ion-nav>`
+    template: `<ion-nav [root]="rootPage"></ion-nav>`,
+    providers: [Shared]
 })
 export class MyApp {
     rootPage = TabsPage;

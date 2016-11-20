@@ -1,7 +1,7 @@
 {
-    "name": "ionic-hello-world",
-    "author": "Ionic Framework",
-    "homepage": "http://ionicframework.com/",
+    "name": "otp-manager",
+    "author": "Adrien WERY",
+    "homepage": "https://github.com/Adpa18/otp-manager",
     "private": true,
     "scripts": {
         "ionic:build": "ionic-app-scripts build",

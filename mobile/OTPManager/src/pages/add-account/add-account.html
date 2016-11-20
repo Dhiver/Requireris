@@ -1,6 +1,11 @@
 <ion-header>
     <ion-toolbar color="primary">
         <ion-title>New Account</ion-title>
+        <ion-buttons end>
+            <button ion-button icon-only color="royal" (click)="scanQrCode()">
+                <ion-icon name="qr-scanner"></ion-icon>
+            </button>
+        </ion-buttons>
     </ion-toolbar>
 </ion-header>
 <ion-content scroll="false" padding>
@@ -24,7 +29,7 @@
             </ion-item>
             <ion-item>
                 <ion-label>TOTP</ion-label>
-                <ion-radio value="TOTP"></ion-radio>Validators.compose([Validators.minLength(16),
+                <ion-radio value="TOTP"></ion-radio>
             </ion-item>
         </ion-list>
 
@@ -74,7 +79,7 @@
         <ion-list class="divid">
             <ion-list-header>
                 Length
-                <ion-badge item-right>{{length}}</ion-badge>
+                <ion-badge item-right>{{loginOTPForm.value.length}}</ion-badge>
             </ion-list-header>
             <ion-item>
                 <ion-range formControlName="length" min="6" max="8">

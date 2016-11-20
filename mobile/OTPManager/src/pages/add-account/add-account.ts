@@ -1,10 +1,12 @@
 import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
 
+import {BarcodeScanner} from 'ionic-native';
+
 import { OTPAccount } from '../../shared/otp-account';
 import { LoginOTP } from '../../shared/loginOTP';
 
-import { HomePage } from '../home/home';
+import { Shared } from '../shared.service';
 
 @Component({
     selector: 'page-add-account',
@@ -12,7 +14,7 @@ import { HomePage } from '../home/home';
 })
 export class AddAccountPage extends LoginOTP {
 
-    constructor(public navCtrl: NavController) {
+    constructor(public navCtrl: NavController, private shared: Shared) {
         super();
     }
 
@@ -29,16 +31,51 @@ export class AddAccountPage extends LoginOTP {
         if (!valid) {
             return;
         }
-        this.navCtrl.parent.select(1);
-        this.navCtrl.push(HomePage, {
-            account: new OTPAccount(
-                value.account,
-                value.secretKey,
-                value.otpType,
-                value.counter,
-                value.length,
-                value.hash,
-                value.timeStart)
+        this.pushAccount(new OTPAccount(
+            value.account,
+            value.secretKey,
+            value.otpType,
+            value.counter,
+            value.length,
+            value.hash,
+            value.timeStart));
+        }
+
+        scanQrCode() {
+            BarcodeScanner.scan().then((result) => {
+                if (result.cancelled) {
+                    return;
+                }
+                this.parseURI(decodeURIComponent(result.text));
             });
+        }
+
+        parseURI(url: string): void {
+            let reg = new RegExp(/otpauth:\/\/(.*)\/(.*):(.*)\?(.*)/);
+            let match = reg.exec(url);
+
+            console.log(url);
+            let parameters = JSON.parse('{"' + match[match.length - 1].replace(/"/g, '\\"').replace(/&/g, '","').replace(/=/g,'":"') + '"}');
+
+            let counter = (match[1] == "totp" ? parameters["period"] : parameters["counter"]) | 30;
+            let digits = parseInt(parameters["digits"]) | 6;
+            let algorithm = parameters["algorithm"] ? parameters["algorithm"].replace("SHA", "SHA-") : "SHA-1";
+            console.log(counter, digits, algorithm);
+            let account = new OTPAccount(
+                match[3],
+                parameters["secret"],
+                match[1].toUpperCase(),
+                counter,
+                digits,
+                algorithm
+            );
+
+            account.otp.genCommonURI(match[2], match[3]);
+            this.pushAccount(account);
+        }
+
+        pushAccount(account: OTPAccount): void {
+            this.shared.newAccount.emit(account);
+            this.navCtrl.parent.select(1);
         }
     }

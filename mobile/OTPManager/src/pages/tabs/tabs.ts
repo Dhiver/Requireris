@@ -6,8 +6,8 @@ import { HomePage } from '../home/home';
 import { AddAccountPage } from '../add-account/add-account';
 
 @Component({
-  selector: 'page-tabs',
-  templateUrl: 'tabs.html'
+    selector: 'page-tabs',
+    templateUrl: 'tabs.html'
 })
 export class TabsPage {
 
@@ -15,10 +15,9 @@ export class TabsPage {
     tab2Root: any = HomePage;
     tab3Root: any = AddAccountPage;
 
-  constructor(public navCtrl: NavController) {}
+    constructor(public navCtrl: NavController) {}
 
-  ionViewDidLoad() {
-    console.log('Hello TabsPage Page');
-  }
-
+    ionViewDidLoad() {
+        
+    }
 }

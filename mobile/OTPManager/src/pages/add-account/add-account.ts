@@ -54,13 +54,15 @@ export class AddAccountPage extends LoginOTP {
             let reg = new RegExp(/otpauth:\/\/(.*)\/(.*):(.*)\?(.*)/);
             let match = reg.exec(url);
 
-            console.log(url);
+            if (!match) {
+                console.log("Bad OTPKeyURI");
+                return;
+            }
             let parameters = JSON.parse('{"' + match[match.length - 1].replace(/"/g, '\\"').replace(/&/g, '","').replace(/=/g,'":"') + '"}');
 
             let counter = (match[1] == "totp" ? parameters["period"] : parameters["counter"]) | 30;
             let digits = parseInt(parameters["digits"]) | 6;
             let algorithm = parameters["algorithm"] ? parameters["algorithm"].replace("SHA", "SHA-") : "SHA-1";
-            console.log(counter, digits, algorithm);
             let account = new OTPAccount(
                 match[3],
                 parameters["secret"],

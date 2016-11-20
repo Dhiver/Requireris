@@ -27,12 +27,14 @@ export class OTPManager {
     removeAccount(key: number): void {
         delete this.otps[key];
         this.otps.splice(key, 1);
+        this.saveAccountsToLocalStorage();
     }
 
     getAccoutsFromServer() {
         this.http.get(this.serverAddress + '/secret/list').map((res: Response) => res.json())
         .subscribe(
             data => {
+                console.log(data);
                 let secrets : Secret[] = data;
                 for (let secret of secrets) {
                     this.otps.push(new OTPAccount(secret.account, secret.secret, secret.otpType, secret.movingFactor, secret.length, secret.hashType));
@@ -44,12 +46,7 @@ export class OTPManager {
 
     addAccountToServer(secret: Secret) {
         let body = JSON.stringify(secret);
-        let headers = new Headers({
-            "Content-Type": "application/json",
-            "Access-Control-Allow-Origin" : "*",
-            "Access-Control-Allow-Methods" : "GET,POST,PUT,DELETE,OPTIONS",
-            "Access-Control-Allow-Headers": "Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With"
-        });
+        let headers = new Headers({"Content-Type": "application/json"});
         let options = new RequestOptions({ headers: headers });
         this.http.post(this.serverAddress + '/secret/add', body, options)
         .map((res:Response) => res.json())

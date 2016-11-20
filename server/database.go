@@ -13,7 +13,7 @@ func Init(name string, passphrase string) (db *sql.DB) {
 	db, err := sql.Open("sqlite3", name)
 
 	if err != nil {
-		log.Print(err)
+		log.Println(err)
 	}
 
 	p := "PRAGMA key = '" + passphrase + "';"

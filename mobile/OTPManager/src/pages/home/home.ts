@@ -15,8 +15,12 @@ export class HomePage extends OTPManager {
     constructor(protected http: Http, private shared: Shared) {
         super(http);
         this.shared.newAccount.subscribe(
-            account => {
-                this.addAccount(account)
+            account => { this.addAccount(account) }
+        );
+        this.shared.serverAddress.subscribe(
+            serverAddress => {
+                this.serverAddress = serverAddress;
+                this.onLogin();
             }
         );
     }

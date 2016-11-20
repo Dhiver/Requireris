@@ -4,25 +4,27 @@
     </ion-toolbar>
 </ion-header>
 <ion-content scroll="false" padding>
-    <ion-list>
-        <ion-item>
-            <ion-label floating>Server Address</ion-label>
-            <ion-input type="text" value=""></ion-input>
-        </ion-item>
+    <form [formGroup]="loginForm" novalidate>
+        <ion-list>
+            <ion-item>
+                <ion-label floating>Server Address</ion-label>
+                <ion-input type="text" formControlName="serverAddress"></ion-input>
+            </ion-item>
 
-        <ion-item>
-            <ion-label floating>Username</ion-label>
-            <ion-input type="text" value=""></ion-input>
-        </ion-item>
+            <ion-item>
+                <ion-label floating>Username</ion-label>
+                <ion-input type="text" formControlName="username"></ion-input>
+            </ion-item>
 
-        <ion-item>
-            <ion-label floating>Password</ion-label>
-            <ion-input type="password" value=""></ion-input>
-        </ion-item>
-    </ion-list>
+            <ion-item>
+                <ion-label floating>Password</ion-label>
+                <ion-input type="password" formControlName="password"></ion-input>
+            </ion-item>
+        </ion-list>
 
-    <div padding>
-        <button ion-button color="primary" block>Sign In</button>
-        <button ion-button color="primary" block>Sign Up</button>
-    </div>
+        <div padding>
+            <button ion-button color="primary" block [disabled]="!loginForm.valid" (click)="sign_in()">Sign In</button>
+            <button ion-button color="primary" block [disabled]="!loginForm.valid" (click)="sign_up()">Sign Up</button>
+        </div>
+    </form>
 </ion-content>

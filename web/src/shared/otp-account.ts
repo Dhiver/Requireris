@@ -59,7 +59,6 @@ export class OTPAccount {
                     case "TOTP":
                         this.OTPKeyURI = this.otp.genTOTPKeyURI(this.movingFactor);
                         this.OTPtoken = this.otp.totp(this.movingFactor, this.timeStart);
-                        console.log(this.OTPKeyURI);
                         break;
                 }
             } catch (e) {

@@ -10,8 +10,8 @@ func GetOnly(h Handler) Handler {
 	return func(w http.ResponseWriter, r *http.Request) {
 		if r.Method == "GET" || r.Header.Get("Access-Control-Request-Method") == "GET" {
 			w.Header().Set("Access-Control-Allow-Origin", "*")
-			w.Header().Set("Access-Control-Allow-Methods", "POST, GET, OPTIONS, PUT, DELETE")
-			w.Header().Set("Access-Control-Allow-Headers", "Accept, Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token, Authorization")
+			// w.Header().Set("Access-Control-Allow-Methods", "POST, GET, OPTIONS, PUT, DELETE")
+			// w.Header().Set("Access-Control-Allow-Headers", "Accept, Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token, Authorization")
 			h(w, r)
 			return
 		}
@@ -24,8 +24,8 @@ func PostOnly(h Handler) Handler {
 	return func(w http.ResponseWriter, r *http.Request) {
 		if r.Method == "POST" || r.Header.Get("Access-Control-Request-Method") == "POST" {
 			w.Header().Set("Access-Control-Allow-Origin", "*")
-			w.Header().Set("Access-Control-Allow-Methods", "POST, GET, OPTIONS, PUT, DELETE")
-			w.Header().Set("Access-Control-Allow-Headers", "Accept, Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token, Authorization")
+			w.Header().Set("Access-Control-Allow-Headers", "Accept, Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token, Authorization, _headers, _normalizedNames")
+			// w.Header().Set("Access-Control-Allow-Methods", "POST, GET, OPTIONS, PUT, DELETE")
 			h(w, r)
 			return
 		}

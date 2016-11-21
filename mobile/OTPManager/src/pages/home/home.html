@@ -1,0 +1,25 @@
+<ion-header>
+    <ion-toolbar color="primary">
+        <ion-title>OTP Manager</ion-title>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+    <ion-list>
+        <ion-item-sliding *ngFor="let otp of otps; let key = index" (ionDrag)="ondrag($event, key)">
+            <ion-item>
+                <ion-avatar item-left class="counter" (click)="otp.updateCounter()">
+                    {{otp.counter}}
+                </ion-avatar>
+                <h2 class="token">{{otp.OTPtoken}}</h2>
+                <p>{{otp.account}}</p>
+            </ion-item>
+            <ion-item-options side="right" class="delete">
+                <button ion-button color="danger" class="delete" (click)="removeAccount(key)">
+                    <ion-icon name="trash"></ion-icon>
+                    delete
+                </button>
+            </ion-item-options>
+        </ion-item-sliding>
+    </ion-list>
+</ion-content>

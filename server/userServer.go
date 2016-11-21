@@ -65,6 +65,10 @@ func (user *User) AddSecretHandler(w http.ResponseWriter, req *http.Request) {
 	var secret Secret
 	decoder := json.NewDecoder(req.Body)
 	decoder.Decode(&secret)
+	if secret.Account == "" {
+		http.Error(w, "Bad", 500)
+		return
+	}
 	err := user.AddSecret(secret)
 	if err != nil {
 		log.Println(err)
@@ -85,8 +89,8 @@ func (user *User) RemoveSecretHandler(w http.ResponseWriter, req *http.Request) 
 func (user *User) ListSecretHandler(w http.ResponseWriter, req *http.Request) {
 	// remove JWT token
 	user.LoadSecrets()
-	json.NewEncoder(w).Encode(user.Secrets)
 	w.WriteHeader(http.StatusOK)
+	json.NewEncoder(w).Encode(user.Secrets)
 }
 
 func cryptPassword(password string) []byte {

@@ -8,7 +8,8 @@ import (
 
 const (
 	// DatabaseFolder folder
-	DatabaseFolder = "databases"
+	DatabaseFolder = ""
+	// DatabaseFolder = "databases"
 
 	// MigrationsFolder folder
 	MigrationsFolder = "migrations"
@@ -35,6 +36,7 @@ func main() {
 	http.HandleFunc("/secret/list", GetOnly(user.ListSecretHandler))
 
 	log.Println("Listening on 8080")
+	// err := http.ListenAndServe(":8080", nil)
 	err := http.ListenAndServeTLS(":8080", path.Join(KeysFolder, "https.pem"), path.Join(KeysFolder, "https.key"), nil)
 	if err != nil {
 		log.Fatal("ListenAndServe: ", err)

@@ -22,18 +22,15 @@ const accounts = {
 			return;
 		}
 		const db = new sqlite3.Database(db_file);
-		ret.data = [];
 		db.serialize(function() {
 			db.run('PRAGMA key=' + res.locals.httpBasicAuth[1]);
-			db.each("SELECT * FROM Otp", function(err, row) {
-				// TOFIX
-				console.log(JSON.parse(JSON.stringify(row)));
-				ret.data.push(JSON.parse(JSON.stringify(row)));
+			db.all("SELECT * FROM Otp", function(err, row) {
+				ret.data = row;
+				ret.meta.success = true;
+				res.json(ret);
 			});
 		});
-		ret.meta.success = true;
-		console.log(ret.data);
-		res.json(ret);
+		db.close();
 	},
 
 	getOne: function(req, res) {
@@ -91,9 +88,8 @@ const accounts = {
 				req.body.timeOffset, req.body.counter);
 			request.finalize();
 		});
+		db.close();
 		ret.meta.success = true;
-		// TOFIX set lastRowId as id
-		ret.data.id = 42;
 		res.json(ret);
 	},
 

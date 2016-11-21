@@ -87,10 +87,13 @@ const accounts = {
 				req.body.fromBase32, req.body.tokenLength, req.body.hashName,
 				req.body.timeOffset, req.body.counter);
 			request.finalize();
+			db.get("SELECT last_insert_rowid() as id", function(err, row) {
+				ret.data.id = row.id;
+				ret.meta.success = true;
+				res.json(ret);
+			});
 		});
 		db.close();
-		ret.meta.success = true;
-		res.json(ret);
 	},
 
 	update: function(req, res) {

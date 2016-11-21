@@ -51,9 +51,7 @@ const accounts = {
 			db.run('PRAGMA key=' + res.locals.httpBasicAuth[1]);
 			db.get("SELECT * FROM Otp WHERE id=" + req.params.id, function(err, row) {
 				ret.data = row;
-				ret.meta.success = true;
-				if (!row)
-					ret.meta.success = false;
+				ret.meta.success = !!row;
 				res.json(ret);
 			});
 		});

@@ -1,0 +1,1 @@
+INSERT INTO Otp(issuer, name, otpType, secret, fromBase32, tokenLength, hashName, timeOffset, counter) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)

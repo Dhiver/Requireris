@@ -34,9 +34,30 @@ const accounts = {
 	},
 
 	getOne: function(req, res) {
-		//const id = res.params.id;
-		//const account = data[0]; //Spoof a DB call
-		//res.json(account);
+		ret = res.locals.retSkel;
+		const db_name = crypto.createHash('sha256')
+			.update(res.locals.httpBasicAuth[0])
+			.digest('hex') + '.db';
+		db_file = res.locals.db_folder + db_name;
+		const dbExists = fs.existsSync(db_file);
+		if (!dbExists) {
+			ret.meta.success = false;
+			ret.meta.err = "No database for you";
+			res.json(ret);
+			return;
+		}
+		const db = new sqlite3.Database(db_file);
+		db.serialize(function() {
+			db.run('PRAGMA key=' + res.locals.httpBasicAuth[1]);
+			db.get("SELECT * FROM Otp WHERE id=" + req.params.id, function(err, row) {
+				ret.data = row;
+				ret.meta.success = true;
+				if (!row)
+					ret.meta.success = false;
+				res.json(ret);
+			});
+		});
+		db.close();
 	},
 
 	getToken: function(req, res) {

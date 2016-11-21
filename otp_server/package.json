@@ -1,0 +1,18 @@
+{
+  "name": "otp_server",
+  "version": "1.0.0",
+  "description": "OTP Server",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Bastien DHIVER",
+  "license": "GPL-3.0",
+  "dependencies": {
+    "body-parser": "^1.15.2",
+    "express": "^4.14.0",
+    "express-validator": "^2.21.0",
+    "morgan": "^1.7.0",
+    "systemd-journald": "^1.2.0"
+  }
+}

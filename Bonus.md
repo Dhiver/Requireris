@@ -25,6 +25,7 @@
             * Validity / Start / Length
             * Google Mode Compatibility
         * QR Code Scanner
+        * Connect to Server
 * Common webApp / mobileApp
     * Reimplementation of base32 (thirty-two) for angular2
     * recode of TOTP /HOTP in pure JS (web) no nodeJS

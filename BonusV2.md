@@ -1,4 +1,4 @@
-* webApp + mobileApp
+* web + desktop + mobile + TV
     * Accès en HTTPS
     * Auto-lock PIN
     * Responsive Design

@@ -30,6 +30,8 @@
     * Android
         * apk
     * iOS (not build)
+    * WebOS
+        * ipk
 
 * Création d'un module bien documenté nodeJS myotp RFC ++compliant (Look Ahead Window, time offset, algorithmes de hachage sha1, sha256, sha512)
 * Implémentation de 3 méthodes par type d'algo OTP

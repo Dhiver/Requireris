@@ -67,13 +67,6 @@ const accounts = {
 		db.close();
 	},
 
-	getToken: function(req, res) {
-		ret = res.locals.retSkel;
-		ret.meta.success = true;
-		ret.data.token = "123456";
-		res.json(ret);
-	},
-
 	verifyToken: function(req, res) {
 		ret = res.locals.retSkel;
 		req.checkBody("token", "Must be non-empty").notEmpty().len(6, 8);
@@ -165,17 +158,35 @@ const accounts = {
 		db.close();
 	},
 
-	update: function(req, res) {
-		//const updateAccount = res.body;
-		//const id = req.params.id;
-		//data[id] = updateProduct; // Spoof a DB call
-		//res.json(updateAccount);
-	},
-
 	delete: function(req, res) {
-		//const id = req.params.id;
-		//data.splice(id - 1, 1) //Spoof a DB call
-		//res.json(true);
+		ret = res.locals.retSkel;
+		req.checkParams("id", "Must be a positive int").isInt().gte(0);
+		let errors = req.validationErrors();
+		if (errors) {
+			ret.meta.success = false;
+			ret.meta.err = errors;
+			res.json(ret);
+			return;
+		}
+		const db_name = crypto.createHash('sha256')
+			.update(res.locals.httpBasicAuth[0])
+			.digest('hex') + '.db';
+		db_file = res.locals.db_folder + db_name;
+		const dbExists = fs.existsSync(db_file);
+		if (!dbExists) {
+			ret.meta.success = false;
+			ret.meta.err = "No database for you";
+			res.json(ret);
+			return;
+		}
+		const db = new sqlite3.Database(db_file);
+		db.serialize(function() {
+			db.run('PRAGMA key=' + res.locals.httpBasicAuth[1]);
+			db.run("DELETE FROM Otp WHERE id=" + req.params.id);
+			ret.meta.success = true;
+			res.json(ret);
+		});
+		db.close();
 	}
 };
 

@@ -116,21 +116,6 @@ POST /api/v1/accounts
 }
 ```
 
-* Update an entry
-
-```text
-{
-	"counter": 21
-}
-
-PUT /api/v1/accounts/:id
-{
-	"meta": {
-		"success": true
-	}
-}
-```
-
 * Delete an entry
 
 ```text

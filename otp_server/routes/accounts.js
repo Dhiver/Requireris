@@ -96,7 +96,7 @@ const accounts = {
 				let otpRet = JSON;
 				otpRet = row.otpType == "hotp"
 					? myotp.hotp.verify(row.secret, req.body.token, 10, row)
-					: myotp.totp.verify(row.secret, req.body.token, 10, row)
+					: myotp.totp.verify(row.secret, req.body.token, 10, row);
 				ret.meta.success = !!otpRet;
 				console.log(ret.meta.success);
 				if (ret.meta.success && row.otpType == "hotp" && otpRet.delta == 0) {
@@ -112,6 +112,41 @@ const accounts = {
 	},
 
 	keyUri: function(req, res) {
+		ret = res.locals.retSkel;
+		req.checkParams("id", "Must be a positive int").isInt().gte(0);
+		let errors = req.validationErrors();
+		if (errors) {
+			ret.meta.success = false;
+			ret.meta.err = errors;
+			res.json(ret);
+			return;
+		}
+		const db_name = crypto.createHash('sha256')
+			.update(res.locals.httpBasicAuth[0])
+			.digest('hex') + '.db';
+		db_file = res.locals.db_folder + db_name;
+		const dbExists = fs.existsSync(db_file);
+		if (!dbExists) {
+			ret.meta.success = false;
+			ret.meta.err = "No database for you";
+			res.json(ret);
+			return;
+		}
+		const db = new sqlite3.Database(db_file);
+		db.serialize(function() {
+			db.run('PRAGMA key=' + res.locals.httpBasicAuth[1]);
+			db.get("SELECT * FROM Otp WHERE id=" + req.params.id, function(err, row) {
+				ret.meta.success = !!row;
+				if (ret.meta.success) {
+					ret.data.keyUri = row.otpType == "hotp"
+					? myotp.hotp.generateKeyUri(row.secret, row)
+					: myotp.totp.generateKeyUri(row.secret, row);
+
+				}
+				res.json(ret);
+			});
+		});
+		db.close();
 	},
 
 	create: function(req, res) {

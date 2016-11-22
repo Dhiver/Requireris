@@ -4,6 +4,33 @@ const crypto = require('crypto');
 const assert = require('assert');
 const base32 = require('thirty-two');
 
+class OTPKeyUri {
+	constructor(issuer, accountName, secret, digits, algo) {
+		this.issuer = issuer;
+		this.accountName = accountName;
+		this.secret = secret;
+		this.digits = digits;
+		this.algo = algo;
+		this.ret = ""
+	}
+
+	init() {
+		this.ret += '/' + encodeURI(this.issuer || '') + ':' + encodeURI(this.accountName || '')
+		+ '?secret=' + this.secret.replace(/\W+/g, '').toUpperCase()
+		+ '&issuer=' + encodeURIComponent(this.issuer || '')
+		+ '&algorithm=' + (this.algo || 'sha1').toUpperCase()
+		+ '&digits=' + (this.digits || 6);
+	}
+
+	genHOTP(counter) {
+		return "otpauth://hotp" + this.ret + '&counter=' + (counter || 0);
+	}
+
+	genTOTP(period) {
+		return "otpauth://totp" + this.ret + '&period=' + (period || 30);
+	}
+}
+
 /*
  * return the hmac digest of msg with the given secret using specified hash
  * @param {String} hash - the hash type to use
@@ -153,6 +180,21 @@ hotp.verify = function(secret, token, lookAheadWindow, opt) {
 	return null;
 };
 
+/*
+ * Generate Key Uri Format
+ *
+ * @return {String} HOTP Key Uri format
+ *
+ */
+hotp.generateKeyUri = function(secret, opt) {
+	secret = secret || '';
+	opt = opt || {};
+
+	const otp = new OTPKeyUri(opt.issuer, opt.name, secret, opt.tokenLength, opt.hashName);
+	otp.init();
+	return otp.genHOTP(opt.counter);
+};
+
 let totp = {};
 
 /*
@@ -233,6 +275,21 @@ totp.verify = function(secret, token, lookAheadWindow, opt) {
 	opt.counter = Math.floor((localSecondsFromEpoch - opt.timeOffset) / opt.timeStep);
 	return hotp.verify(secret, token, lookAheadWindow, opt);
 }
+
+/*
+ * Generate Key Uri Format
+ *
+ * @return {String} TOTP Key Uri format
+ *
+ */
+totp.generateKeyUri = function(secret, opt) {
+	secret = secret || '';
+	opt = opt || {};
+
+	const otp = new OTPKeyUri(opt.issuer, opt.name, secret, opt.tokenLength, opt.hashName);
+	otp.init();
+	return otp.genTOTP(opt.timeStep);
+};
 
 module.exports.hotp = hotp;
 module.exports.totp = totp;

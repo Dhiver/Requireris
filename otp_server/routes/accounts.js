@@ -3,6 +3,7 @@ const fs = require('fs');
 const crypto = require('crypto');
 const log = require('systemd-journald');
 const sqlite3 = require('sqlite3').verbose();
+const myotp = require('myotp');
 
 const app = express();
 
@@ -35,6 +36,14 @@ const accounts = {
 
 	getOne: function(req, res) {
 		ret = res.locals.retSkel;
+		req.checkParams("id", "Must be a positive int").isInt().gte(0);
+		let errors = req.validationErrors();
+		if (errors) {
+			ret.meta.success = false;
+			ret.meta.err = errors;
+			res.json(ret);
+			return;
+		}
 		const db_name = crypto.createHash('sha256')
 			.update(res.locals.httpBasicAuth[0])
 			.digest('hex') + '.db';
@@ -66,6 +75,43 @@ const accounts = {
 	},
 
 	verifyToken: function(req, res) {
+		ret = res.locals.retSkel;
+		req.checkBody("token", "Must be non-empty").notEmpty().len(6, 8);
+		req.checkParams("id", "Must be a positive int").isInt().gte(0);
+		let errors = req.validationErrors();
+		if (errors) {
+			ret.meta.success = false;
+			ret.meta.err = errors;
+			res.json(ret);
+			return;
+		}
+		const db_name = crypto.createHash('sha256')
+			.update(res.locals.httpBasicAuth[0])
+			.digest('hex') + '.db';
+		db_file = res.locals.db_folder + db_name;
+		const dbExists = fs.existsSync(db_file);
+		if (!dbExists) {
+			ret.meta.success = false;
+			ret.meta.err = "No database for you";
+			res.json(ret);
+			return;
+		}
+		const db = new sqlite3.Database(db_file);
+		db.serialize(function() {
+			db.run('PRAGMA key=' + res.locals.httpBasicAuth[1]);
+			db.get("SELECT * FROM Otp WHERE id=" + req.params.id, function(err, row) {
+				let otpRet = JSON;
+				optRet = row.otpType == "hotp"
+					? myotp.hotp.verify(row.secret, req.body.token, 10, row)
+					: myotp.totp.verify(row.secret, req.body.token, 10, row)
+				ret.meta.success = !!optRet;
+				if (ret.meta.success && row.otpType == "hotp") {
+				}
+				ret.data = optRet;
+				res.json(ret);
+			});
+		});
+		db.close();
 	},
 
 	keyUri: function(req, res) {

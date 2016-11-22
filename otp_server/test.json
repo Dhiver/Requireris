@@ -1,0 +1,1 @@
+{"issuer": "RFC","name": "bastien.dhiver@epitech.eu","otpType": "hotp","secret": "GEZDGNBVGY3TQOJQGEZDGNBVGY3TQOJQ","fromBase32": true,"tokenLength": 6,"hashName": "sha1","timeOffset": 0,"counter": 0}

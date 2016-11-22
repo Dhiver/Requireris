@@ -5,7 +5,6 @@ const accounts = require('./accounts.js');
 
 router.get('/accounts', accounts.getAll);
 router.get('/accounts/:id', accounts.getOne);
-router.get('/accounts/:id/getToken', accounts.getToken);
 router.get('/accounts/:id/verifyToken', accounts.verifyToken);
 router.get('/accounts/:id/keyUri', accounts.keyUri);
 router.post('/accounts', accounts.create);

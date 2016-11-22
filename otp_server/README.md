@@ -65,21 +65,6 @@ GET /api/v1/accounts/:id
 }
 ```
 
-* Get otp token
-
-```text
-GET /api/v1/accounts/:id/getToken
-
-{
-	"meta": {
-		"success": true
-	},
-	"data": {
-		"token": "123456"
-	}
-}
-```
-
 * Verify given token validity
 
 ```text
@@ -99,11 +84,8 @@ GET /api/v1/accounts/:id/verifyToken
 {
 	"meta": {
 		"success": false
-		"err": "invalid token"
 	}
-	"data": {
-		"counterDelta" : 0
-	}
+	"data": null
 }
 ```
 

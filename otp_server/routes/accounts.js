@@ -101,17 +101,21 @@ const accounts = {
 			db.run('PRAGMA key=' + res.locals.httpBasicAuth[1]);
 			db.get("SELECT * FROM Otp WHERE id=" + req.params.id, function(err, row) {
 				let otpRet = JSON;
-				optRet = row.otpType == "hotp"
+				otpRet = row.otpType == "hotp"
 					? myotp.hotp.verify(row.secret, req.body.token, 10, row)
 					: myotp.totp.verify(row.secret, req.body.token, 10, row)
-				ret.meta.success = !!optRet;
-				if (ret.meta.success && row.otpType == "hotp") {
+				ret.meta.success = !!otpRet;
+				console.log(ret.meta.success);
+				if (ret.meta.success && row.otpType == "hotp" && otpRet.delta == 0) {
+					db.get("SELECT counter FROM Otp WHERE id=" + req.params.id, function(err, now) {
+						db.run("UPDATE Otp SET counter = " + (row.counter + 1) + " WHERE id = " + req.params.id);
+						db.close();
+					});
 				}
-				ret.data = optRet;
+				ret.data = otpRet;
 				res.json(ret);
 			});
 		});
-		db.close();
 	},
 
 	keyUri: function(req, res) {

@@ -69,7 +69,7 @@ const accounts = {
 
 	verifyToken: function(req, res) {
 		ret = res.locals.retSkel;
-		req.checkBody("token", "Must be non-empty").notEmpty().len(6, 8);
+		req.checkBody("token", "Must be non-empty with len between 6 and 8").notEmpty().len(6, 8);
 		req.checkParams("id", "Must be a positive int").isInt().gte(0);
 		let errors = req.validationErrors();
 		if (errors) {
@@ -93,12 +93,22 @@ const accounts = {
 		db.serialize(function() {
 			db.run('PRAGMA key=' + res.locals.httpBasicAuth[1]);
 			db.get("SELECT * FROM Otp WHERE id=" + req.params.id, function(err, row) {
-				let otpRet = JSON;
-				otpRet = row.otpType == "hotp"
+				ret.meta.success = !!row;
+				if (!ret.meta.success) {
+					ret.meta.success = false;
+					ret.meta.err = "No ID " + req.params.id + " in DB";
+					res.json(ret);
+					return;
+				}
+				let otpRet = row.otpType == "hotp"
 					? myotp.hotp.verify(row.secret, req.body.token, 10, row)
 					: myotp.totp.verify(row.secret, req.body.token, 10, row);
-				ret.meta.success = !!otpRet;
-				console.log(ret.meta.success);
+				if (!otpRet) {
+					ret.meta.success = false;
+					ret.meta.err = "Invalid token";
+					res.json(ret);
+					return;
+				}
 				if (ret.meta.success && row.otpType == "hotp" && otpRet.delta == 0) {
 					db.get("SELECT counter FROM Otp WHERE id=" + req.params.id, function(err, now) {
 						db.run("UPDATE Otp SET counter = " + (row.counter + 1) + " WHERE id = " + req.params.id);

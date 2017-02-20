@@ -1,3 +1,7 @@
+# Requireris
+
+School project where we had to develop a One Time Password generator, Google accounts compatible.
+
 # RFC powered
 
 ## HOTP (HMAC-Based One-Time Password)
